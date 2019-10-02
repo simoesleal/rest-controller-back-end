@@ -1,25 +1,25 @@
 # Rest-Controller API
 Back-end codebase of the Rest Controller project
 
-Build Setup
+# Build Setup
 
-# install dependencies
+install dependencies
 npm install
 
-# serve with hot reload at localhost:8080
+serve with hot reload at localhost:8080
 npm run dev
 
-# build for production with minification
+build for production with minification
 npm run build
 
-# build for production and view the bundle analyzer report
+build for production and view the bundle analyzer report
 npm run build --report
 
-# run unit tests
+run unit tests
 npm run unit
 
-# run e2e tests
+run e2e tests
 npm run e2e
 
-# run all tests
+run all tests
 npm test
