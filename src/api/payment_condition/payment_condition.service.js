@@ -44,13 +44,13 @@ async function getPaymentConditionByIdService (id) {
 }
 
 
-async function postPaymentConditionService (condition, installments, firstDay, description, id_forma_pagamento) {
+async function postPaymentConditionService (id_forma_pagamento, installmentNumber, issueDate, dueDate, installmentValue) {
 	let methodName = 'postPaymentConditionService'
 	let response
 	try {
-		logInfo(`Entering ${methodName}`, `condition = [${condition}], installments = [${installments}], firstDay = [${firstDay}], description = [${description}], id_forma_pagamento = [${id_forma_pagamento}]`, LOG_PAYMENT_CONDITION)
-		await validateNewPaymentCondition(condition, installments, firstDay, description, id_forma_pagamento)
-		response = await postPaymentConditionRepository(condition, installments, firstDay, description, id_forma_pagamento)
+		logInfo(`Entering ${methodName}`, `id_forma_pagamento = [${id_forma_pagamento}], installmentNumber = [${installmentNumber}], issueDate = [${issueDate}], dueDate = [${dueDate}], installmentValue = [${installmentValue}]`, LOG_PAYMENT_CONDITION)
+		await validateNewPaymentCondition(id_forma_pagamento, installmentNumber, issueDate, dueDate, installmentValue)
+		response = await postPaymentConditionRepository(id_forma_pagamento, installmentNumber, issueDate, dueDate, installmentValue)
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_PAYMENT_CONDITION)
 		throw new ErrorHandler(error.mensagem, httpStatus.BAD_REQUEST, false)
@@ -59,13 +59,13 @@ async function postPaymentConditionService (condition, installments, firstDay, d
 	return response
 }
 
-async function putPaymentConditionService (id, condition, installments, firstDay, description, id_forma_pagamento) {
+async function putPaymentConditionService (id, id_forma_pagamento, installmentNumber, issueDate, dueDate, installmentValue) {
 	let methodName = 'putPaymentConditionService'
 	let response
 	try {
-		logInfo(`Entering ${methodName}`, `id = [${id}], condition = [${condition}], installments = [${installments}], firstDay = [${firstDay}], description = [${description}], id_forma_pagamento = [${id_forma_pagamento}]`, LOG_PAYMENT_CONDITION)
-		await validateUpdatePaymentCondition(id, condition, installments, firstDay, description, id_forma_pagamento)
-		response = await putPaymentConditionRepository(id, condition, installments, firstDay, description, id_forma_pagamento)
+		logInfo(`Entering ${methodName}`, `id = [${id}], id_forma_pagamento = [${id_forma_pagamento}], installmentNumber = [${installmentNumber}], issueDate = [${issueDate}], dueDate = [${dueDate}], installmentValue = [${installmentValue}]`, LOG_PAYMENT_CONDITION)
+		await validateUpdatePaymentCondition(id, id_forma_pagamento, installmentNumber, issueDate, dueDate, installmentValue)
+		response = await putPaymentConditionRepository(id, id_forma_pagamento, installmentNumber, issueDate, dueDate, installmentValue)
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_PAYMENT_CONDITION)
 		throw new ErrorHandler(error.mensagem, httpStatus.BAD_REQUEST, false)

@@ -30,10 +30,10 @@ async function getPaymentConditionById (req, res, next) {
 }
 
 async function postPaymentCondition (req, res, next) {
-	const { condition, installments, firstDay, description, id_forma_pagamento } = req.body
+	const { id_forma_pagamento, installmentNumber, issueDate, dueDate, installmentValue } = req.body
 	let response
 	try {
-		response = await postPaymentConditionService(condition, installments, firstDay, description, id_forma_pagamento)
+		response = await postPaymentConditionService(id_forma_pagamento, installmentNumber, issueDate, dueDate, installmentValue)
 	} catch (error) {
 		return next(error)
 	}
@@ -41,10 +41,10 @@ async function postPaymentCondition (req, res, next) {
 }
 
 async function putPaymentCondition (req, res, next) {
-	const { id, condition, installments, firstDay, description, id_forma_pagamento } = req.body
+	const { id, id_forma_pagamento, installmentNumber, issueDate, dueDate, installmentValue } = req.body
 	let response
 	try {
-		response = await putPaymentConditionService(id, condition, installments, firstDay, description, id_forma_pagamento)
+		response = await putPaymentConditionService(id, id_forma_pagamento, installmentNumber, issueDate, dueDate, installmentValue)
 	} catch (error) {
 		return next(error)
 	}
