@@ -42,10 +42,10 @@ async function getBankAccountByNumberAccount (req, res, next) {
 }
 
 async function postBankAccount (req, res, next) {
-	const { id_banco, agency, agencyDigit, accountNumber, accountNumberDigit } = req.body
+	const { id_banco, account, agency, agencyDigit, accountNumber, accountNumberDigit } = req.body
 	let response
 	try {
-		response = await postBankAccountService(id_banco, agency, agencyDigit, accountNumber, accountNumberDigit)
+		response = await postBankAccountService(id_banco, account, agency, agencyDigit, accountNumber, accountNumberDigit)
 	} catch (error) {
 		return next(error)
 	}
@@ -53,10 +53,10 @@ async function postBankAccount (req, res, next) {
 }
 
 async function putBankAccount (req, res, next) {
-	const { id, id_banco, agency, agencyDigit, accountNumber, accountNumberDigit } = req.body
+	const { id, id_banco, account, agency, agencyDigit, accountNumber, accountNumberDigit } = req.body
 	let response
 	try {
-		response = await putBankAccountService(id, id_banco, agency, agencyDigit, accountNumber, accountNumberDigit)
+		response = await putBankAccountService(id, id_banco, account, agency, agencyDigit, accountNumber, accountNumberDigit)
 	} catch (error) {
 		return next(error)
 	}

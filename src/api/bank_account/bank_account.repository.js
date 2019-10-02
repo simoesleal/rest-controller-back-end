@@ -47,11 +47,11 @@ async function getBankAccountByNumberAccountRepository (accountNumber, transacti
   return camelize(bankAccount)
 }
 
-async function postBankAccountRepository (id_banco, agency, agencyDigit, accountNumber, accountNumberDigit, transaction = null) {
+async function postBankAccountRepository (id_banco, account, agency, agencyDigit, accountNumber, accountNumberDigit, transaction = null) {
   let response
   try {
     transaction = await validaTransaction(transaction)
-    const QUERY = new PreparedStatement({name: 'insert-new-bank-account', text: INSERT_NEW_BANK_ACCOUNT, values: [id_banco, agency, agencyDigit, accountNumber, accountNumberDigit]})
+    const QUERY = new PreparedStatement({name: 'insert-new-bank-account', text: INSERT_NEW_BANK_ACCOUNT, values: [id_banco, account, agency, agencyDigit, accountNumber, accountNumberDigit]})
     response = await transaction.query(QUERY)
   } catch (error) {
       throw new DefaultError(`Não foi possível criar esta nova conta bancaria, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
@@ -59,11 +59,11 @@ async function postBankAccountRepository (id_banco, agency, agencyDigit, account
   return camelize(response)
 }
 
-async function putBankAccountRepository (id, id_banco, agency, agencyDigit, accountNumber, accountNumberDigit, transaction = null) {
+async function putBankAccountRepository (id, id_banco, account, agency, agencyDigit, accountNumber, accountNumberDigit, transaction = null) {
   let response
   try {
     transaction = await validaTransaction(transaction)
-    const QUERY = new PreparedStatement({name: 'update-bank-account', text: UPDATE_BANK_ACCOUNT, values: [id, id_banco, agency, agencyDigit, accountNumber, accountNumberDigit]})
+    const QUERY = new PreparedStatement({name: 'update-bank-account', text: UPDATE_BANK_ACCOUNT, values: [id, id_banco, account, agency, agencyDigit, accountNumber, accountNumberDigit]})
     response = await transaction.query(QUERY)
   } catch (error) {
     throw new DefaultError(`Não foi possível atualizar esta conta bancaria, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
