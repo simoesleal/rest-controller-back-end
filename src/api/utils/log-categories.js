@@ -16,7 +16,6 @@ const LOG_BANK = 'registration/bank'
 const LOG_BANK_ACCOUNT = 'registration/bank_account'
 const LOG_PAYMENT_TYPE = 'registration/payment_type'
 const LOG_PAYMENT_CONDITION = 'registration/payment_condition'
-const LOG_ACCOUNT_PAYABLES = 'registration/account_payables'
 
 module.exports = {
   LOG_COUNTRY,
@@ -36,6 +35,5 @@ module.exports = {
   LOG_BANK,
   LOG_BANK_ACCOUNT,
   LOG_PAYMENT_TYPE,
-  LOG_PAYMENT_CONDITION,
-  LOG_ACCOUNT_PAYABLES
+  LOG_PAYMENT_CONDITION
 }
