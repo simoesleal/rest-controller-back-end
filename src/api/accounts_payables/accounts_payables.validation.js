@@ -12,7 +12,7 @@ async function validateNewAccountPayable (number, issueDay, dueDay, installmentV
   if (!await validateParam(id_conta_bancaria)) throw new DefaultError(`Não identificamos a conta bancaria utilizada nesta conta e este é um campo obrigatório. Por favor, tente novamente.`, 'id_conta_bancaria nulo ou vazio')
   if (!await validateParam(id_forma_pagamento)) throw new DefaultError(`Não identificamos a forma de pagamento utilizada nesta conta e este é um campo obrigatório. Por favor, tente novamente.`, 'id_forma_pagamento nulo ou vazio')
   if (!await validateParam(id_condicao_pagamento)) throw new DefaultError(`Não identificamos as condições de  pagamento utilizada nesta conta e este é um campo obrigatório. Por favor, tente novamente.`, 'id_condicao_pagamento nulo ou vazio')
-}
+  }
 
 async function validateUpdateAccountPayable (id, number, issueDay, dueDay, installmentValue, totalValue, id_fornecedor, id_moeda, id_conta_bancaria, id_forma_pagamento, id_condicao_pagamento) {
   if (!await validateParam(id)) throw new DefaultError(`Não identificamos o código desta Conta e este é um campo obrigatório. Por favor, tente novamente.`, 'id nulo ou vazio')
@@ -27,7 +27,6 @@ async function validateUpdateAccountPayable (id, number, issueDay, dueDay, insta
   if (!await validateParam(id_forma_pagamento)) throw new DefaultError(`Não identificamos a forma de pagamento utilizada nesta conta e este é um campo obrigatório. Por favor, tente novamente.`, 'id_forma_pagamento nulo ou vazio')
   if (!await validateParam(id_condicao_pagamento)) throw new DefaultError(`Não identificamos as condições de  pagamento utilizada nesta conta e este é um campo obrigatório. Por favor, tente novamente.`, 'id_condicao_pagamento nulo ou vazio')
 }
-
 module.exports = {
 	validateNewAccountPayable,
   validateUpdateAccountPayable

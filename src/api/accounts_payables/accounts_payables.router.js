@@ -9,7 +9,6 @@ const {
 } = require('./accounts_payables.controller')
 
 const router = express.Router()
-
 router.get('/consultar/', getAccountPayablesList)
 router.get('/consultar/:id', getAccountPayableById)
 router.get('/consultar/numeracao/:number', getAccountPayableByNumber)

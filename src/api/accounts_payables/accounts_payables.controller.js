@@ -49,7 +49,7 @@ async function postAccountPayable (req, res, next) {
 	} catch (error) {
 		return next(error)
 	}
-	return res.json(new DataHandler(httpStatus.OK, 'Conta a pagar cadastrado com sucesso.', response))
+	return res.json(new DataHandler(httpStatus.OK, 'Conta a pagar cadastrada com sucesso.', response))
 }
 
 async function putAccountPayable (req, res, next) {

@@ -1,5 +1,4 @@
-const SELECT_ACCOUNTS_PAYABLES = `select cp.id, cp.numero, cp.data_emissao, cp.data_vencimento, cp.valor_parcela, cp.valor_liquido, cp.historico, cp.observacoes,
-	   fornecedor.id as id_fornecedor, fornecedor.razao_social as rs_fornecedor,
+const SELECT_ACCOUNTS_PAYABLES = `select cp.id, cp.numero, cp.data_emissao, cp.data_vencimento, cp.valor_parcela, cp.valor_liquido, cp.historico, cp.observacoes, fornecedor.id as id_fornecedor, fornecedor.razao_social as rs_fornecedor,
 	   moeda.id as id_moeda, moeda.nome_moeda as moeda,
 	   conta_bancaria.id as id_cb, conta_bancaria.conta_bancaria as conta,
 	   forma_pagamento.id as id_fp, forma_pagamento.forma as forma_pagamento,

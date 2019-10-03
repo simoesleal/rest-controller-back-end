@@ -18,7 +18,7 @@ async function getAccountPayablesListRepository (transaction = null) {
     const QUERY = new PreparedStatement({name: 'select-accounts-payables', text: SELECT_ACCOUNTS_PAYABLES})
     accountPayablesList = await transaction.manyOrNone(QUERY)
   } catch (error) {
-      throw new DefaultError(`Não foi possível buscar a listagem de contas a pagar, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
+      throw new DefaultError(`Não foi possível buscar a listagem de contas a pagar, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code}]`)
   }
   return camelize(accountPayablesList)
 }

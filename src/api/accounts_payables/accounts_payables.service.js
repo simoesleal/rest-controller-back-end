@@ -23,7 +23,7 @@ async function getAccountPayablesListService () {
 		logInfo(`Entering ${methodName}`, '', LOG_ACCOUNT_PAYABLES)
 		accountPayablesList = await getAccountPayablesListRepository()
 	} catch (error) {
-		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_ACCOUNT_PAYABLES)
+		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)}]`, LOG_ACCOUNT_PAYABLES)
 		throw new ErrorHandler(error.mensagem, httpStatus.BAD_REQUEST, false)
 	}
 	logInfo(`Returning ${methodName}`, HIDDEN_BIG_RETURN, LOG_ACCOUNT_PAYABLES)
