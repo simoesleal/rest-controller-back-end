@@ -17,7 +17,6 @@ const bank = require('../api/bank/bank.router')
 const bankAccount = require('../api/bank_account/bank_account.router')
 const paymentForm = require('../api/payment_type/payment_type.router')
 const paymentCondition = require('../api/payment_condition/payment_condition.router')
-const accountsPayables = require('../api/accounts_payables/accounts_payables.router')
 
 const router = express.Router()
 
@@ -43,6 +42,5 @@ router.use('/bancos', bank)
 router.use('/contas-bancarias', bankAccount)
 router.use('/formas-pagamento', paymentForm)
 router.use('/condicoes-pagamento', paymentCondition)
-router.use('/contas-a-pagar', accountsPayables)
 
 module.exports = router
