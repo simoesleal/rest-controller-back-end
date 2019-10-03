@@ -1,5 +1,5 @@
 # Rest-Controller API
-Back-end codebase of the Rest Controller project
+Back-end codebase of the Rest Controller project, a web system for restaurants and bars.
 
 # Build Setup
 
