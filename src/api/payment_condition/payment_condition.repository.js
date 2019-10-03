@@ -34,12 +34,11 @@ async function getPaymentConditionByIdRepository (id, transaction = null) {
   return camelize(paymentCondition)
 }
 
-
-async function postPaymentConditionRepository (condition, installments, firstDay, description, id_forma_pagamento, transaction = null) {
+async function postPaymentConditionRepository (id_forma_pagamento, installmentNumber, issueDate, dueDate, installmentValue, transaction = null) {
   let response
   try {
     transaction = await validaTransaction(transaction)
-    const QUERY = new PreparedStatement({name: 'insert-new-payment-condition', text: INSERT_NEW_PAYMENT_CONDITION, values: [condition, installments, firstDay, description, id_forma_pagamento]})
+    const QUERY = new PreparedStatement({name: 'insert-new-payment-condition', text: INSERT_NEW_PAYMENT_CONDITION, values: [id_forma_pagamento, installmentNumber, issueDate, dueDate, installmentValue]})
     response = await transaction.query(QUERY)
   } catch (error) {
       throw new DefaultError(`Não foi possível criar esta condição de pagamento, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
@@ -47,11 +46,11 @@ async function postPaymentConditionRepository (condition, installments, firstDay
   return camelize(response)
 }
 
-async function putPaymentConditionRepository (id, condition, installments, firstDay, description, id_forma_pagamento, transaction = null) {
+async function putPaymentConditionRepository (id, id_forma_pagamento, installmentNumber, issueDate, dueDate, installmentValue, transaction = null) {
   let response
   try {
     transaction = await validaTransaction(transaction)
-    const QUERY = new PreparedStatement({name: 'update-state', text: UPDATE_PAYMENT_CONDITION, values: [id, condition, installments, firstDay, description, id_forma_pagamento]})
+    const QUERY = new PreparedStatement({name: 'update-state', text: UPDATE_PAYMENT_CONDITION, values: [id, id_forma_pagamento, installmentNumber, issueDate, dueDate, installmentValue]})
     response = await transaction.query(QUERY)
   } catch (error) {
     throw new DefaultError(`Não foi possível atualizar esta condição de pagamento, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
