@@ -11,6 +11,7 @@ const {
 	getStateListRepository,
   getStateByIdRepository,
 	getStateByNameRepository,
+	getStateByCountryIdRepository,
   postStateRepository,
   putStateRepository,
   deleteStateRepository
@@ -52,6 +53,20 @@ async function getStateByNameService (name) {
 		logInfo(`Entering ${methodName}`, `name = [${name}]`, LOG_STATE)
 		preparedName = `%${name}%`
 		state = await getStateByNameRepository(preparedName)
+	} catch (error) {
+		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_STATE)
+		throw new ErrorHandler(error.mensagem, httpStatus.BAD_REQUEST, false)
+	}
+	logInfo(`Returning ${methodName}`, state, LOG_STATE)
+	return state
+}
+
+async function getStateByCountryIdService (id) {
+	let methodName = 'getStateByCountryIdService'
+	let state
+	try {
+		logInfo(`Entering ${methodName}`, `id = [${id}]`, LOG_STATE)
+		state = await getStateByCountryIdRepository(id)
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_STATE)
 		throw new ErrorHandler(error.mensagem, httpStatus.BAD_REQUEST, false)
@@ -108,6 +123,7 @@ module.exports = {
 	getStateListService,
 	getStateByIdService,
 	getStateByNameService,
+	getStateByCountryIdService,
 	postStateService,
 	putStateService,
 	deleteStateService

@@ -11,7 +11,12 @@ const SELECT_STATE_BY_ID = `SELECT estado.id, estado.nome, estado.uf, estado.ibg
 const SELECT_STATE_BY_NAME = `SELECT estado.id, estado.nome, estado.uf, estado.ibge, pais.id as pais_id, pais.nome_pt as pais_nome
 														FROM estado
 														INNER JOIN pais ON estado.pais=pais.id
-														where estado.nome like ($1);`											
+														where estado.nome like ($1);`		
+
+const SELECT_STATE_BY_COUNTRY_ID = `SELECT estado.id, estado.nome, estado.uf, estado.ibge, pais.id as pais_id, pais.nome_pt as pais_nome
+											FROM estado
+											INNER JOIN pais ON estado.pais=pais.id 
+											where estado.pais = ($1);`																							
 
 const INSERT_NEW_STATE = `INSERT INTO estado (nome, uf, ibge, pais) VALUES ($1, $2, $3, $4)`
 
@@ -25,6 +30,7 @@ module.exports = {
 	SELECT_STATES,
 	SELECT_STATE_BY_ID,
 	SELECT_STATE_BY_NAME,
+	SELECT_STATE_BY_COUNTRY_ID,
 	INSERT_NEW_STATE,
 	UPDATE_STATE,
 	DELETE_STATE
