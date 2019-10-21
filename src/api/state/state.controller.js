@@ -4,6 +4,7 @@ const {
 	getStateListService,
 	getStateByIdService,
 	getStateByNameService,
+	getStateByCountryIdService,
 	postStateService,
 	putStateService,
 	deleteStateService
@@ -35,6 +36,17 @@ async function getStateByName (req, res, next) {
 	let state
 	try {
 		state = await getStateByNameService(name)
+	} catch (error) {
+		return next(error)
+	}
+	return res.json(new DataHandler(httpStatus.OK, 'Consulta do Estado realizada com sucesso.', state))
+}
+
+async function getStateByCountryId (req, res, next) {
+	const { id } = req.params
+	let state
+	try {
+		state = await getStateByCountryIdService(id)
 	} catch (error) {
 		return next(error)
 	}
@@ -78,6 +90,7 @@ module.exports = {
 	getStateList,
 	getStateById,
 	getStateByName,
+	getStateByCountryId,
 	postState,
 	putState,
 	deleteState

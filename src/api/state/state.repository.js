@@ -6,6 +6,7 @@ const {
   SELECT_STATES,
 	SELECT_STATE_BY_ID,
   SELECT_STATE_BY_NAME,
+  SELECT_STATE_BY_COUNTRY_ID,
 	INSERT_NEW_STATE,
 	UPDATE_STATE,
 	DELETE_STATE
@@ -47,6 +48,18 @@ async function getStateByNameRepository (name, transaction = null) {
   return camelize(state)
 }
 
+async function getStateByCountryIdRepository (id, transaction = null) {
+  let stateList
+  try {
+    transaction = await validaTransaction(transaction)
+    const QUERY = new PreparedStatement({name: 'select-state-by-country-id', text: SELECT_STATE_BY_COUNTRY_ID, values: [id]})
+    stateList = await transaction.manyOrNone(QUERY)
+  } catch (error) {
+      throw new DefaultError(`Não foi possível buscar a listagem de Estados, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
+  }
+  return camelize(stateList)
+}
+
 async function postStateRepository (name, uf, ibge, pais, transaction = null) {
   let response
   try {
@@ -86,6 +99,7 @@ module.exports = {
 	getStateListRepository,
   getStateByIdRepository,
   getStateByNameRepository,
+  getStateByCountryIdRepository,
   postStateRepository,
   putStateRepository,
   deleteStateRepository
