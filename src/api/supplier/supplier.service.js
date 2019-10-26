@@ -15,7 +15,9 @@ const {
   putSupplierRepository,
   deleteSupplierRepository
 } = require('./supplier.repository')
-
+const { getCountryByIdService } = require('../country/country.service')
+const { getStateByIdService } = require('../state/state.service')
+const { getCityByIdService } = require('../city/city.service')
 async function getSupplierListService () {
 	let methodName = 'getSupplierListService'
 	let supplierList
@@ -32,16 +34,32 @@ async function getSupplierListService () {
 
 async function getSupplierByIdService (id) {
 	let methodName = 'getSupplierByIdService'
-	let supplier
+	let supplier, country, state, city, payload
 	try {
 		logInfo(`Entering ${methodName}`, `id = [${id}]`, LOG_SUPPLIER)
 		supplier = await getSupplierByIdRepository(id)
+		country = await getCountryByIdService(supplier.pais)
+		state = await getStateByIdService(supplier.estado)
+		city = await getCityByIdService(supplier.cidade)
+		payload = getPayloadSupplierInfo(supplier, country, state, city)
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_SUPPLIER)
 		throw new ErrorHandler(error.mensagem, httpStatus.BAD_REQUEST, false)
 	}
 	logInfo(`Returning ${methodName}`, supplier, LOG_SUPPLIER)
-	return supplier
+	return payload
+}
+
+function getPayloadSupplierInfo (supplier, country, state, city) {
+	let supplierInfo = {
+		supplier: {
+			info: supplier,
+			country,
+			state,
+			city
+		}
+	}
+	return supplierInfo
 }
 
 async function getSupplierByRazaoSocialService (razaoSocial) {

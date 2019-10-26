@@ -4,6 +4,7 @@ const {
 	getCityListService,
 	getCityByIdService,
 	getCityByNameService,
+	getCityByStateIdService,
 	postCityService,
 	putCityService,
 	deleteCityService
@@ -39,6 +40,17 @@ async function getCityByName (req, res, next) {
 		return next(error)
 	}
 	return res.json(new DataHandler(httpStatus.OK, 'Consulta de Cidade realizada com sucesso.', city))
+}
+
+async function getCityByStateId (req, res, next) {
+	const { id } = req.params
+	let state
+	try {
+		state = await getCityByStateIdService(id)
+	} catch (error) {
+		return next(error)
+	}
+	return res.json(new DataHandler(httpStatus.OK, 'Consulta do Cidades realizada com sucesso.', state))
 }
 
 async function postCity (req, res, next) {
@@ -78,6 +90,7 @@ module.exports = {
 	getCityList,
 	getCityById,
 	getCityByName,
+	getCityByStateId,
 	postCity,
 	putCity,
 	deleteCity

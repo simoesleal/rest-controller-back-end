@@ -17,7 +17,9 @@ const {
   putCustomerRepository,
   deleteCustomerRepository
 } = require('./customer.repository')
-
+const { getCountryByIdService } = require('../country/country.service')
+const { getStateByIdService } = require('../state/state.service')
+const { getCityByIdService } = require('../city/city.service')
 async function getCustomerListService () {
 	let methodName = 'getCustomerListService'
 	let customerList
@@ -34,16 +36,32 @@ async function getCustomerListService () {
 
 async function getCustomerByIdService (id) {
 	let methodName = 'getCustomerByIdService'
-	let customer
+	let customer, country, state, city, payload
 	try {
 		logInfo(`Entering ${methodName}`, `id = [${id}]`, LOG_CUSTOMER)
 		customer = await getCustomerByIdRepository(id)
+		country = await getCountryByIdService(customer.pais)
+		state = await getStateByIdService(customer.estado)
+		city = await getCityByIdService(customer.cidade)
+		payload = getPayloadCustomerInfo(customer, country, state, city)
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_CUSTOMER)
 		throw new ErrorHandler(error.mensagem, httpStatus.BAD_REQUEST, false)
 	}
 	logInfo(`Returning ${methodName}`, customer, LOG_CUSTOMER)
-	return customer
+	return payload
+}
+
+function getPayloadCustomerInfo (customer, country, state, city) {
+	let customerInfo = {
+		customer: {
+			info: customer,
+			country,
+			state,
+			city
+		}
+	}
+	return customerInfo
 }
 
 async function getCustomerByNameService (name) {
@@ -110,13 +128,13 @@ async function getCustomerByCellphoneService (cellphone) {
 	return customer
 }
 
-async function postCustomerService (name, lastName, birth, sex, status, cpf, email, phone, cellphone, preferences, id_endereco) {
+async function postCustomerService (name, lastName, birth, sex, status, docs, docType, orgExp, email, phone, cellphone, preferences, id_endereco) {
 	let methodName = 'postCustomerService'
 	let response
 	try {
-		logInfo(`Entering ${methodName}`, `name = [${name}], lastName = [${lastName}], birth = [${birth}], sex = [${sex}], status = [${status}], cpf = [${cpf}], email = [${email}], phone = [${phone}], cellphone = [${cellphone}], preferences = [${preferences}], id_endereco = [${id_endereco}]`, LOG_CUSTOMER)
+		logInfo(`Entering ${methodName}`, `name = [${name}], lastName = [${lastName}], birth = [${birth}], sex = [${sex}], status = [${status}], docs = [${docs}], docType = [${docType}], orgExp = [${orgExp}], email = [${email}], phone = [${phone}], cellphone = [${cellphone}], preferences = [${preferences}], id_endereco = [${id_endereco}]`, LOG_CUSTOMER)
 		await validateNewCustomer(name, id_endereco)
-		response = await postCustomerRepository(name, lastName, birth, sex, status, cpf, email, phone, cellphone, preferences, id_endereco)
+		response = await postCustomerRepository(name, lastName, birth, sex, status, docs, docType, orgExp, email, phone, cellphone, preferences, id_endereco)
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_CUSTOMER)
 		throw new ErrorHandler(error.mensagem, httpStatus.BAD_REQUEST, false)
@@ -125,13 +143,13 @@ async function postCustomerService (name, lastName, birth, sex, status, cpf, ema
 	return response
 }
 
-async function putCustomerService (id, name, lastName, birth, sex, status, cpf, email, phone, cellphone, preferences, id_endereco) {
+async function putCustomerService (id, name, lastName, birth, sex, status, docs, docType, orgExp, email, phone, cellphone, preferences, id_endereco) {
 	let methodName = 'putCustomerService'
 	let response
 	try {
-		logInfo(`Entering ${methodName}`, `id = [${id}], name = [${name}], lastName = [${lastName}], birth = [${birth}], sex = [${sex}], status = [${status}], cpf = [${cpf}], email = [${email}], phone = [${phone}], cellphone = [${cellphone}], preferences = [${preferences}], id_endereco = [${id_endereco}]`, LOG_CUSTOMER)
+		logInfo(`Entering ${methodName}`, `id = [${id}], name = [${name}], lastName = [${lastName}], birth = [${birth}], sex = [${sex}], status = [${status}], docs = [${docs}], docType = [${docType}], orgExp = [${orgExp}], email = [${email}], phone = [${phone}], cellphone = [${cellphone}], preferences = [${preferences}], id_endereco = [${id_endereco}]`, LOG_CUSTOMER)
 		await validateUpdateCustomer(id, name, id_endereco)
-		response = await putCustomerRepository(id, name, lastName, birth, sex, status, cpf, email, phone, cellphone, preferences, id_endereco)
+		response = await putCustomerRepository(id, name, lastName, birth, sex, status, docs, docType, orgExp, email, phone, cellphone, preferences, id_endereco)
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_CUSTOMER)
 		throw new ErrorHandler(error.mensagem, httpStatus.BAD_REQUEST, false)

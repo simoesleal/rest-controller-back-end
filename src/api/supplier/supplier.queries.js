@@ -1,24 +1,30 @@
 /* Tabela Pais */
-const SELECT_SUPPLIERS = `SELECT fornecedor.id, fornecedor.nome_fantasia, fornecedor.razao_social, 					fornecedor.cpf_cnpj, fornecedor.insc_municipal, fornecedor.insc_estadual, fornecedor.status, fornecedor.email, fornecedor.telefone, fornecedor.celular, fornecedor.conta_corrente, endereco.id as id_endereco, endereco.cep, endereco.rua, endereco.numero, endereco.bairro, endereco.complemento
-													FROM fornecedor
-													INNER JOIN endereco ON fornecedor.id_endereco=endereco.id;`
+const SELECT_SUPPLIERS = `SELECT fornecedor.id, fornecedor.nome_fantasia, fornecedor.razao_social, fornecedor.cpf_cnpj, fornecedor.insc_municipal, 
+		fornecedor.insc_estadual, fornecedor.status, fornecedor.email, fornecedor.telefone, fornecedor.celular, fornecedor.conta_corrente, 
+endereco.id as id_endereco, endereco.cep, endereco.rua, endereco.numero, endereco.bairro, endereco.complemento, endereco.pais as pais, endereco.estado as estado, endereco.cidade as cidade
+FROM fornecedor
+INNER JOIN endereco ON fornecedor.id_endereco=endereco.id;`										
 
-										
+const SELECT_SUPPLIER_BY_ID = `SELECT fornecedor.id, fornecedor.nome_fantasia, fornecedor.razao_social, fornecedor.cpf_cnpj, fornecedor.insc_municipal, 
+		fornecedor.insc_estadual, fornecedor.status, fornecedor.email, fornecedor.telefone, fornecedor.celular, fornecedor.conta_corrente, 
+endereco.id as id_endereco, endereco.cep, endereco.rua, endereco.numero, endereco.bairro, endereco.complemento, endereco.pais as pais, endereco.estado as estado, endereco.cidade as cidade
+FROM fornecedor
+INNER JOIN endereco ON fornecedor.id_endereco=endereco.id 
+WHERE fornecedor.id = ($1);`			
 
-const SELECT_SUPPLIER_BY_ID = `SELECT fornecedor.id, fornecedor.nome_fantasia, fornecedor.razao_social, 					fornecedor.cpf_cnpj, fornecedor.insc_municipal, fornecedor.insc_estadual, fornecedor.status, fornecedor.email, fornecedor.telefone, fornecedor.celular, fornecedor.conta_corrente, endereco.id as id_endereco, endereco.cep, endereco.rua, endereco.numero, endereco.bairro, endereco.complemento
-													FROM fornecedor
-													INNER JOIN endereco ON fornecedor.id_endereco=endereco.id
-													WHERE fornecedor.id = ($1);`			
+const SELECT_SUPPLIER_BY_RAZAO_SOCIAL = `SELECT fornecedor.id, fornecedor.nome_fantasia, fornecedor.razao_social, fornecedor.cpf_cnpj, fornecedor.insc_municipal, 
+		fornecedor.insc_estadual, fornecedor.status, fornecedor.email, fornecedor.telefone, fornecedor.celular, fornecedor.conta_corrente, 
+endereco.id as id_endereco, endereco.cep, endereco.rua, endereco.numero, endereco.bairro, endereco.complemento, endereco.pais as pais, endereco.estado as estado, endereco.cidade as cidade
+FROM fornecedor
+INNER JOIN endereco ON fornecedor.id_endereco=endereco.id
+WHERE fornecedor.razao_social like ($1);`
 
-const SELECT_SUPPLIER_BY_RAZAO_SOCIAL = `SELECT fornecedor.id, fornecedor.nome_fantasia, fornecedor.razao_social, fornecedor.cpf_cnpj, fornecedor.insc_municipal, fornecedor.insc_estadual, fornecedor.status, fornecedor.email, fornecedor.telefone, fornecedor.celular, fornecedor.conta_corrente, endereco.id as id_endereco, endereco.cep, endereco.rua, endereco.numero, endereco.bairro, endereco.complemento
-													FROM fornecedor
-													INNER JOIN endereco ON fornecedor.id_endereco=endereco.id
-													WHERE fornecedor.razao_social like ($1);`
-
-const SELECT_SUPPLIER_BY_NOME_FANTASIA = `SELECT fornecedor.id, fornecedor.nome_fantasia, fornecedor.razao_social, fornecedor.cpf_cnpj, fornecedor.insc_municipal, fornecedor.insc_estadual, fornecedor.status, 				fornecedor.email, fornecedor.telefone, fornecedor.celular, fornecedor.conta_corrente, endereco.id as id_endereco, endereco.cep, endereco.rua, endereco.numero, endereco.bairro, endereco.complemento
-													FROM fornecedor
-													INNER JOIN endereco ON fornecedor.id_endereco=endereco.id
-													WHERE fornecedor.nome_fantasia like ($1);`											
+const SELECT_SUPPLIER_BY_NOME_FANTASIA = `SELECT fornecedor.id, fornecedor.nome_fantasia, fornecedor.razao_social, fornecedor.cpf_cnpj, fornecedor.insc_municipal, 
+		fornecedor.insc_estadual, fornecedor.status, fornecedor.email, fornecedor.telefone, fornecedor.celular, fornecedor.conta_corrente, 
+endereco.id as id_endereco, endereco.cep, endereco.rua, endereco.numero, endereco.bairro, endereco.complemento, endereco.pais as pais, endereco.estado as estado, endereco.cidade as cidade
+FROM fornecedor
+INNER JOIN endereco ON fornecedor.id_endereco=endereco.id
+WHERE fornecedor.nome_fantasia like ($1);`											
 
 const INSERT_NEW_SUPPLIER = `INSERT INTO fornecedor (nome_fantasia, razao_social, cpf_cnpj, insc_municipal, insc_estadual, status, email, telefone, celular, conta_corrente, id_endereco) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`
 
