@@ -78,10 +78,10 @@ async function getCustomerByCellphone (req, res, next) {
 }
 
 async function postCustomer (req, res, next) {
-	const { name, lastName, birth, sex, status, cpf, email, phone, cellphone, preferences, id_endereco } = req.body
+	const { name, lastName, birth, sex, status, docs, docType, orgExp, email, phone, cellphone, preferences, id_endereco } = req.body
 	let response
 	try {
-		response = await postCustomerService(name, lastName, birth, sex, status, cpf, email, phone, cellphone, preferences, id_endereco)
+		response = await postCustomerService(name, lastName, birth, sex, status, docs, docType, orgExp, email, phone, cellphone, preferences, id_endereco)
 	} catch (error) {
 		return next(error)
 	}
@@ -89,10 +89,10 @@ async function postCustomer (req, res, next) {
 }
 
 async function putCustomer (req, res, next) {
-	const { id, name, lastName, birth, sex, status, cpf, email, phone, cellphone, preferences, id_endereco } = req.body
+	const { id, name, lastName, birth, sex, status, docs, docType, orgExp, email, phone, cellphone, preferences, id_endereco } = req.body
 	let response
 	try {
-		response = await putCustomerService(id, name, lastName, birth, sex, status, cpf, email, phone, cellphone, preferences, id_endereco)
+		response = await putCustomerService(id, name, lastName, birth, sex, status, docs, docType, orgExp, email, phone, cellphone, preferences, id_endereco)
 	} catch (error) {
 		return next(error)
 	}

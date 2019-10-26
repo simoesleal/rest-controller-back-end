@@ -86,11 +86,11 @@ async function getCustomerByCellphoneRepository (cellPhone, transaction = null) 
   return camelize(customer)
 }
 
-async function postCustomerRepository (name, lastName, birth, sex, status, cpf, email, phone, cellphone, preferences, id_endereco, transaction = null) {
+async function postCustomerRepository (name, lastName, birth, sex, status, docs, docType, orgExp, email, phone, cellphone, preferences, id_endereco, transaction = null) {
   let response
   try {
     transaction = await validaTransaction(transaction)
-    const QUERY = new PreparedStatement({name: 'insert-new-customer', text: INSERT_NEW_CUSTOMER, values: [name, lastName, birth, sex, status, cpf, email, phone, cellphone, preferences, id_endereco]})
+    const QUERY = new PreparedStatement({name: 'insert-new-customer', text: INSERT_NEW_CUSTOMER, values: [name, lastName, birth, sex, status, docs, docType, orgExp, email, phone, cellphone, preferences, id_endereco]})
     response = await transaction.query(QUERY)
   } catch (error) {
       throw new DefaultError(`Não foi possível criar este novo Cleinte, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
@@ -98,11 +98,11 @@ async function postCustomerRepository (name, lastName, birth, sex, status, cpf, 
   return camelize(response)
 }
 
-async function putCustomerRepository (id, name, lastName, birth, sex, status, cpf, email, phone, cellphone, preferences, id_endereco, transaction = null) {
+async function putCustomerRepository (id, name, lastName, birth, sex, status,docs, docType, orgExp, email, phone, cellphone, preferences, id_endereco, transaction = null) {
   let response
   try {
     transaction = await validaTransaction(transaction)
-    const QUERY = new PreparedStatement({name: 'update-customer', text: UPDATE_CUSTOMER, values: [id, name, lastName, birth, sex, status, cpf, email, phone, cellphone, preferences, id_endereco]})
+    const QUERY = new PreparedStatement({name: 'update-customer', text: UPDATE_CUSTOMER, values: [id, name, lastName, birth, sex, status,docs, docType, orgExp, email, phone, cellphone, preferences, id_endereco]})
     response = await transaction.query(QUERY)
   } catch (error) {
     throw new DefaultError(`Não foi possível atualizar este Cleinte, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)

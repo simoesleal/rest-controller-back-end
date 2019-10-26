@@ -11,7 +11,12 @@ const SELECT_CITY_BY_ID = `SELECT cidade.id, cidade.nome_cidade, estado.id as id
 const SELECT_CITY_BY_NAME = `SELECT cidade.id, cidade.nome_cidade, estado.id as id_estado, estado.nome as nome_estado, estado.uf
 														FROM cidade
 														INNER JOIN estado ON cidade.estado=estado.id
-														where cidade.nome_cidade like ($1);`											
+														where cidade.nome_cidade like ($1);`		
+
+const SELECT_CITY_BY_STATE_ID = `SELECT cidade.id, cidade.nome_cidade, estado.id as id_estado, estado.nome as nome_estado, estado.uf
+											FROM cidade
+											INNER JOIN estado ON cidade.estado=estado.id
+											where cidade.estado = ($1);`																							
 
 const INSERT_NEW_CITY = `INSERT INTO cidade (nome_cidade, estado) VALUES ($1, $2)`
 
@@ -25,6 +30,7 @@ module.exports = {
 	SELECT_CITIES,
 	SELECT_CITY_BY_ID,
 	SELECT_CITY_BY_NAME,
+	SELECT_CITY_BY_STATE_ID,
 	INSERT_NEW_CITY,
 	UPDATE_CITY,
 	DELETE_CITY

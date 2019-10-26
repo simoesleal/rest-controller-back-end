@@ -11,6 +11,7 @@ const {
 	getCityListRepository,
   getCityByIdRepository,
   getCityByNameRepository,
+	getCityByStateIdRepository,
   postCityRepository,
   putCityRepository,
   deleteCityRepository
@@ -52,6 +53,20 @@ async function getCityByNameService (name) {
 		logInfo(`Entering ${methodName}`, `name = [${name}]`, LOG_CITY)
 		preparedName = `%${name}%`
 		city = await getCityByNameRepository(preparedName)
+	} catch (error) {
+		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_CITY)
+		throw new ErrorHandler(error.mensagem, httpStatus.BAD_REQUEST, false)
+	}
+	logInfo(`Returning ${methodName}`, city, LOG_CITY)
+	return city
+}
+
+async function getCityByStateIdService (id) {
+	let methodName = 'getCityByStateIdService'
+	let city
+	try {
+		logInfo(`Entering ${methodName}`, `id = [${id}]`, LOG_CITY)
+		city = await getCityByStateIdRepository(id)
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_CITY)
 		throw new ErrorHandler(error.mensagem, httpStatus.BAD_REQUEST, false)
@@ -108,6 +123,7 @@ module.exports = {
 	getCityListService,
 	getCityByIdService,
 	getCityByNameService,
+	getCityByStateIdService,
 	postCityService,
 	putCityService,
 	deleteCityService

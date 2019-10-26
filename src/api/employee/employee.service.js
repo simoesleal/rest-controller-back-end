@@ -16,7 +16,10 @@ const {
   putEmployeePasswordRepository,
   deleteEmployeeRepository
 } = require('./employee.repository')
-
+const { getOccupationByIdService } = require('../occupation/occupation.service')
+const { getCountryByIdService } = require('../country/country.service')
+const { getStateByIdService } = require('../state/state.service')
+const { getCityByIdService } = require('../city/city.service')
 async function getEmployeeListService () {
 	let methodName = 'getEmployeeListService'
 	let employeeList
@@ -33,16 +36,34 @@ async function getEmployeeListService () {
 
 async function getEmployeeByIdService (id) {
 	let methodName = 'getEmployeeByIdService'
-	let employee
+	let employee, occupation, country, state, city, payload
 	try {
 		logInfo(`Entering ${methodName}`, `id = [${id}]`, LOG_EMPLOYEE)
 		employee = await getEmployeeByIdRepository(id)
+		occupation = await getOccupationByIdService(employee.idFuncao)
+		country = await getCountryByIdService(employee.pais)
+		state = await getStateByIdService(employee.estado)
+		city = await getCityByIdService(employee.cidade)
+		payload = getPayloadEmployeeInfo(employee, occupation, country, state, city)
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_EMPLOYEE)
 		throw new ErrorHandler(error.mensagem, httpStatus.BAD_REQUEST, false)
 	}
-	logInfo(`Returning ${methodName}`, employee, LOG_EMPLOYEE)
-	return employee
+	logInfo(`Returning ${methodName}`, payload, LOG_EMPLOYEE)
+	return payload
+}
+
+function getPayloadEmployeeInfo (employee, occupation, country, state, city) {
+	let employeeInfo = {
+		employee: {
+			info: employee,
+			occupation,
+			country,
+			state,
+			city
+		}
+	}
+	return employeeInfo
 }
 
 async function getEmployeeByNameService (name) {

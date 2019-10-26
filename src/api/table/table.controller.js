@@ -71,7 +71,7 @@ async function deleteTable (req, res, next) {
 	} catch (error) {
 		return next(error)
 	}
-	return res.json(new DataHandler(httpStatus.OK, 'País excluído com sucesso.', response))
+	return res.json(new DataHandler(httpStatus.OK, 'Mesa excluído com sucesso.', response))
 }
 
 module.exports = {

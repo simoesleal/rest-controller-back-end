@@ -6,6 +6,7 @@ const {
   SELECT_CITIES,
 	SELECT_CITY_BY_ID,
 	SELECT_CITY_BY_NAME,
+  SELECT_CITY_BY_STATE_ID,
 	INSERT_NEW_CITY,
 	UPDATE_CITY,
 	DELETE_CITY
@@ -47,6 +48,17 @@ async function getCityByNameRepository (name, transaction = null) {
   return camelize(state)
 }
 
+async function getCityByStateIdRepository (id, transaction = null) {
+  let cities
+  try {
+    transaction = await validaTransaction(transaction)
+    const QUERY = new PreparedStatement({name: 'select-city-by-state-id', text: SELECT_CITY_BY_STATE_ID, values: [id]})
+    cities = await transaction.manyOrNone(QUERY)
+  } catch (error) {
+      throw new DefaultError(`Não foi possível buscar a listagem de Cidades, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
+  }
+  return camelize(cities)
+}
 async function postCityRepository (name, state, transaction = null) {
   let response
   try {
@@ -86,6 +98,7 @@ module.exports = {
 	getCityListRepository,
   getCityByIdRepository,
   getCityByNameRepository,
+  getCityByStateIdRepository,
   postCityRepository,
   putCityRepository,
   deleteCityRepository
