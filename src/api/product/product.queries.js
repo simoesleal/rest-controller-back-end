@@ -1,25 +1,25 @@
 /* Tabela Pais */
 const SELECT_PRODUCTS = `SELECT produto.id, produto.nome_produto, produto.descricao_produto, produto.preco_compra, produto.preco_venda, produto.preco_custo,
 	   produto.qtd_atual, produto.qtd_max, produto.qtd_min, produto.status, grupo_produto.id as id_gupo_produto, grupo_produto.nome_grupo,
-	   unidade.id as id_unidade, unidade.nome_unidade
+	   unidade_produto.id as id_unidade, unidade_produto.nome_unidade
 FROM produto
 INNER JOIN grupo_produto ON produto.id_grupo_produto=grupo_produto.id
-INNER JOIN unidade ON produto.id_unidade=unidade.id;`
+INNER JOIN unidade_produto ON produto.id_unidade=unidade_produto.id;`
 
 const SELECT_PRODUCT_BY_ID = `SELECT produto.id, produto.nome_produto, produto.descricao_produto, produto.preco_compra, produto.preco_venda, produto.preco_custo,
 	   produto.qtd_atual, produto.qtd_max, produto.qtd_min, produto.status, grupo_produto.id as id_gupo_produto, grupo_produto.nome_grupo,
-	   unidade.id as id_unidade, unidade.nome_unidade
+	   unidade_produto.id as id_unidade, unidade_produto.nome_unidade
 FROM produto
 INNER JOIN grupo_produto ON produto.id_grupo_produto=grupo_produto.id
-INNER JOIN unidade ON produto.id_unidade=unidade.id
+INNER JOIN unidade_produto ON produto.id_unidade=unidade_produto.id
 where produto.id = ($1);`				
 
 const SELECT_PRODUCT_BY_NAME = `SELECT produto.id, produto.nome_produto, produto.descricao_produto, produto.preco_compra, produto.preco_venda, produto.preco_custo,
 	   produto.qtd_atual, produto.qtd_max, produto.qtd_min, produto.status, grupo_produto.id as id_gupo_produto, grupo_produto.nome_grupo,
-	   unidade.id as id_unidade, unidade.nome_unidade
+	   unidade_produto.id as id_unidade, unidade_produto.nome_unidade
 FROM produto
 INNER JOIN grupo_produto ON produto.id_grupo_produto=grupo_produto.id
-INNER JOIN unidade ON produto.id_unidade=unidade.id
+INNER JOIN unidade_produto ON produto.id_unidade=unidade_produto.id
 where produto.nome_produto like ($1);`											
 
 const INSERT_NEW_PRODUCT = `INSERT INTO produto (nome_produto, descricao_produto, preco_compra, preco_venda, preco_custo, qtd_atual, qtd_max, qtd_min, status, id_grupo_produto, id_unidade) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`
