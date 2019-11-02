@@ -18,6 +18,7 @@ const LOG_PAYMENT_TYPE = 'registration/payment_type'
 const LOG_PAYMENT_CONDITION = 'registration/payment_condition'
 const LOG_CASH_REGISTER = 'registration/cash_register'
 const LOG_WAITER_REQUEST = 'registration/waiter_request'
+const LOG_UNIT_MEASUREMENT = 'registration/unit_measurement'
 
 module.exports = {
   LOG_COUNTRY,
@@ -39,5 +40,6 @@ module.exports = {
   LOG_PAYMENT_TYPE,
   LOG_PAYMENT_CONDITION,
   LOG_CASH_REGISTER,
-  LOG_WAITER_REQUEST
+  LOG_WAITER_REQUEST,
+  LOG_UNIT_MEASUREMENT
 }

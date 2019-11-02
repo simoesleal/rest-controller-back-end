@@ -20,6 +20,7 @@ const paymentCondition = require('../api/payment_condition/payment_condition.rou
 const accountsPayables = require('../api/accounts_payables/accounts_payables.router')
 const cashRegister = require('../api/cash_register/cash_register.router')
 const waiterRequest = require('../api/waiter_request/waiter_request.router')
+const unitMeasurement = require('../api/unit_measurement/unit_measurement.router')
 
 const router = express.Router()
 
@@ -48,6 +49,7 @@ router.use('/condicoes-pagamento', paymentCondition)
 router.use('/contas-a-pagar', accountsPayables)
 router.use('/caixa', cashRegister)
 router.use('/pedidos', waiterRequest)
+router.use('/unidade-medida', unitMeasurement)
 
 module.exports = router
  
