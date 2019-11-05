@@ -10,16 +10,16 @@ const {
 } = require('./waiter_request.repository')
 
 
-async function insertNewWaiterRequestService (idMesa, idFuncionario, idContaCliente, valorTotal, produtos) {
+async function insertNewWaiterRequestService (idMesa, idFuncionario, idContaCliente, produtos) {
 	let methodName = 'insertNewWaiterRequestService'
 	let response
 	try {
 
-		logInfo(`Entering ${methodName}`, `idMesa = [${idMesa}], idFuncionario = [${idFuncionario}], idContaCliente = [${idContaCliente}], valorTotal = [${valorTotal}], produtos = [${JSON.stringify(produtos)}]`, LOG_WAITER_REQUEST)
+		logInfo(`Entering ${methodName}`, `idMesa = [${idMesa}], idFuncionario = [${idFuncionario}], idContaCliente = [${idContaCliente}], produtos = [${JSON.stringify(produtos)}]`, LOG_WAITER_REQUEST)
 
-		await validateNewWaiterRequest(idMesa, idFuncionario, idContaCliente, valorTotal, produtos)
+		await validateNewWaiterRequest(idMesa, idFuncionario, idContaCliente, produtos)
 
-		response = await insertNewWaiterRequestRepository(idMesa, idFuncionario, idContaCliente, valorTotal, produtos)
+		response = await insertNewWaiterRequestRepository(idMesa, idFuncionario, idContaCliente, produtos)
 		
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_WAITER_REQUEST)
