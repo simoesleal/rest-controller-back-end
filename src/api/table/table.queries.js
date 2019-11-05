@@ -1,5 +1,5 @@
 /* Tabela Pais */
-const SELECT_TABLES = `SELECT id, numero, detalhes, status FROM mesa;`
+const SELECT_TABLES = `SELECT id, numero, detalhes, status FROM mesa ORDER BY numero ASC;`
 const SELECT_TABLE_BY_ID = `SELECT id, numero, detalhes, status FROM mesa WHERE id = ($1);`
 
 const SELECT_TABLE_BY_NUMBER = `SELECT id, numero, detalhes, status FROM mesa WHERE numero = ($1);`
