@@ -6,10 +6,10 @@ const {
 
 
 async function insertNewWaiterRequest (req, res, next) {
-	const { idMesa, idFuncionario, idContaCliente, valorTotal, produtos } = req.body
+	const { idMesa, idFuncionario, idContaCliente, produtos } = req.body
 	let response
 	try {
-		response = await insertNewWaiterRequestService(idMesa, idFuncionario, idContaCliente, valorTotal, produtos)
+		response = await insertNewWaiterRequestService(idMesa, idFuncionario, idContaCliente, produtos)
 	} catch (error) {
 		return next(error)
 	}
