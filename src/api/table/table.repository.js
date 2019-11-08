@@ -8,7 +8,9 @@ const {
 	SELECT_TABLE_BY_NUMBER,
 	INSERT_NEW_TABLE,
 	UPDATE_TABLE,
-	DELETE_TABLE
+	DELETE_TABLE,
+  SELECT_OCCUPIED_TABLES,
+  UPDATE_OCCUPY_TABLE
 } = require('./table.queries')
 
 async function getTableListRepository (transaction = null) {
@@ -70,6 +72,7 @@ async function putTableRepository (id, number, details, status, transaction = nu
   }
   return camelize(response)
 }
+
 async function deleteTableRepository (id, transaction = null) {
   let response
   try {
@@ -82,11 +85,37 @@ async function deleteTableRepository (id, transaction = null) {
   return camelize(response)
 }
 
+async function getOccupiedTableListRepository (transaction = null) {
+  let tableList
+  try {
+    transaction = await validaTransaction(transaction)
+    const QUERY = new PreparedStatement({name: 'select-occupied-tables', text: SELECT_OCCUPIED_TABLES})
+    tableList = await transaction.manyOrNone(QUERY)
+  } catch (error) {
+      throw new DefaultError(`Não foi possível buscar a listagem de mesas, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
+  }
+  return camelize(tableList)
+}
+
+async function occupyTableRepository (id, transaction = null) {
+  let response
+  try {
+    transaction = await validaTransaction(transaction)
+    const QUERY = new PreparedStatement({name: 'update-occupy-table', text: UPDATE_OCCUPY_TABLE, values: [id]})
+    response = await transaction.query(QUERY)
+  } catch (error) {
+    throw new DefaultError(`Não foi possível atualizar esta mesa, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
+  }
+  return camelize(response)
+}
+
 module.exports = {
 	getTableListRepository,
   getTableByIdRepository,
   getTableByNumberRepository,
   postTableRepository,
   putTableRepository,
-  deleteTableRepository
+  deleteTableRepository,
+  getOccupiedTableListRepository,
+  occupyTableRepository
 }

@@ -6,7 +6,9 @@ const {
 	getTableByNumberService,
 	postTableService,
 	putTableService,
-	deleteTableService
+	deleteTableService,
+	getOccupiedTableListService,
+	occupyTableService
 } = require('./table.service')
 
 async function getTableList (req, res, next) {
@@ -74,11 +76,34 @@ async function deleteTable (req, res, next) {
 	return res.json(new DataHandler(httpStatus.OK, 'Mesa excluído com sucesso.', response))
 }
 
+async function getOccupiedTableList (req, res, next) {
+	let tableList
+	try {
+		tableList = await getOccupiedTableListService()
+	} catch (error) {
+		return next(error)
+	}
+	return res.json(new DataHandler(httpStatus.OK, 'Consulta de mesas realizada com sucesso.', tableList))
+}
+
+async function occupyTable (req, res, next) {
+	const { id } = req.body
+	let response
+	try {
+		response = await occupyTableService(id)
+	} catch (error) {
+		return next(error)
+	}
+	return res.json(new DataHandler(httpStatus.OK, 'Mesa atualizada com sucesso.', response))
+}
+
 module.exports = {
 	getTableList,
 	getTableById,
 	getTableByNumber,
 	postTable,
 	putTable,
-	deleteTable
+	deleteTable,
+	getOccupiedTableList,
+	occupyTable
 }

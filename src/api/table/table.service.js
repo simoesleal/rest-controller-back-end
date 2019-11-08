@@ -12,7 +12,9 @@ const {
   getTableByNumberRepository,
   postTableRepository,
   putTableRepository,
-  deleteTableRepository
+  deleteTableRepository,
+	getOccupiedTableListRepository,
+	occupyTableRepository
 } = require('./table.repository')
 
 async function getTableListService () {
@@ -101,11 +103,42 @@ async function deleteTableService (id) {
 	return response
 }
 
+async function getOccupiedTableListService () {
+	let methodName = 'getOccupiedTableListService'
+	let tableList
+	try {
+		logInfo(`Entering ${methodName}`, '', LOG_TABLE)
+		tableList = await getOccupiedTableListRepository()
+	} catch (error) {
+		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_TABLE)
+		throw new ErrorHandler(error.mensagem, httpStatus.BAD_REQUEST, false)
+	}
+	logInfo(`Returning ${methodName}`, tableList, LOG_TABLE)
+	return tableList
+}
+
+async function occupyTableService (id) {
+	let methodName = 'occupyTableService'
+	let response
+	try {
+		logInfo(`Entering ${methodName}`, `id = [${id}]`, LOG_TABLE)
+		response = await occupyTableRepository(id)
+	} catch (error) {
+		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_TABLE)
+		throw new ErrorHandler(error.mensagem, httpStatus.BAD_REQUEST, false)
+	}
+	logInfo(`Returning ${methodName}`, response, LOG_TABLE)
+	return response
+}
+
+
 module.exports = {
 	getTableListService,
 	getTableByIdService,
 	getTableByNumberService,
 	postTableService,
 	putTableService,
-	deleteTableService
+	deleteTableService,
+	getOccupiedTableListService,
+	occupyTableService
 }
