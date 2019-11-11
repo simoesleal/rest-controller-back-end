@@ -52,8 +52,6 @@ async function postAccountPayableRepository (number, issueDay, dueDay, installme
   try {
     transaction = await validaTransaction(transaction)
     const QUERY = new PreparedStatement({name: 'insert-new-account-payable', text: INSERT_NEW_ACCOUNT_PAYABLE, values: [number, issueDay, dueDay, installmentValue, totalValue, historic, observations, id_fornecedor, id_moeda, id_conta_bancaria, id_forma_pagamento, id_condicao_pagamento]})
-    console.log('QUERY')
-    console.log(QUERY)
     response = await transaction.query(QUERY)
   } catch (error) {
       throw new DefaultError(`Não foi possível criar esta conta a pagar, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)

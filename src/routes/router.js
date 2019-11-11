@@ -53,7 +53,7 @@ router.use('/caixa', cashRegister)
 router.use('/pedidos', waiterRequest)
 router.use('/unidade-medida', unitMeasurement)
 router.use('/conta-cliente', customerAccount)
-router.use('/caixa', closure)
+router.use('/fechamento', closure)
 
 module.exports = router
  
