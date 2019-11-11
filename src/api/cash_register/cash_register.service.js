@@ -12,7 +12,8 @@ const {
   getCashRegisterByIdRepository,
   postCashRegisterRepository,
   putCashRegisterRepository,
-  deletCashRegisterRepository
+  deletCashRegisterRepository,
+	closeCashRegisterRepository
 } = require('./cash_register.repository')
 
 async function getCashRegisterListService () {
@@ -44,15 +45,15 @@ async function getCashRegisterByIdService (id) {
 }
 
 
-async function postCashRegisterService (id_funcionario, id_cotacao, initialBalance, finalBalance, dateTimeBegining, dateTimeEnd) {
+async function postCashRegisterService (id_funcionario, id_cotacao, saldo_inicial, saldo_final, fundo_real, fundo_dolar, fundo_peso, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos, troco) {
 	let methodName = 'postCashRegisterService'
 	let response
 	try {
 
-		logInfo(`Entering ${methodName}`, `id_funcionario = [${id_funcionario}], id_cotacao = [${id_cotacao}], initialBalance = [${initialBalance}], finalBalance = [${finalBalance}], dateTimeBegining = [${dateTimeBegining}], dateTimeEnd = [${dateTimeEnd}]`, LOG_CASH_REGISTER)
+		logInfo(`Entering ${methodName}`, `id_funcionario = [${id_funcionario}], id_cotacao = [${id_cotacao}],saldo_inicial = [${saldo_inicial}], saldo_final = [${saldo_final}], fundo_real = [${fundo_real}], fundo_dolar = [${fundo_dolar}], fundo_peso = [${fundo_peso}], fechamentos_real = [${fechamentos_real}], fechamentos_dolar = [${fechamentos_dolar}], fechamentos_peso = [${fechamentos_peso}], fechamentos_cartao_cred = [${fechamentos_cartao_cred}], fechamentos_cartao_deb = [${fechamentos_cartao_deb}], valor_total_fechamentos = [${valor_total_fechamentos}], troco = [${troco}]`, LOG_CASH_REGISTER)
 
-		await validateNewCashRegister(id_funcionario, id_cotacao, initialBalance, finalBalance, dateTimeBegining, dateTimeEnd)
-		response = await postCashRegisterRepository(id_funcionario, id_cotacao, initialBalance, finalBalance, dateTimeBegining, dateTimeEnd)
+		await validateNewCashRegister(id_funcionario, id_cotacao, saldo_inicial, saldo_final, fundo_real, fundo_dolar, fundo_peso, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos, troco)
+		response = await postCashRegisterRepository(id_funcionario, id_cotacao, saldo_inicial, saldo_final, fundo_real, fundo_dolar, fundo_peso, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos, troco)
 	
 
 	} catch (error) {
@@ -95,10 +96,30 @@ async function deleteCashRegisterService (id) {
 	return response
 }
 
+
+async function closeCashRegisterService (id, saldo_final, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos, data_hora_fim, status) {
+	let methodName = 'closeCashRegisterService'
+	let response
+	try {
+		logInfo(`Entering ${methodName}`, `id = [${id}], saldo_final = [${saldo_final}], fechamentos_real = [${fechamentos_real}], fechamentos_dolar = [${fechamentos_dolar}], fechamentos_peso = [${fechamentos_peso}], fechamentos_cartao_cred = [${fechamentos_cartao_cred}], fechamentos_cartao_deb = [${fechamentos_cartao_deb}, valor_total_fechamentos = [${valor_total_fechamentos}], valor_total_fechamentos = [${valor_total_fechamentos}, data_hora_fim = [${data_hora_fim}, status = [${status}`, LOG_CASH_REGISTER)
+
+
+		response = await closeCashRegisterRepository(id, saldo_final, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos, data_hora_fim, status)
+
+	} catch (error) {
+		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_CASH_REGISTER)
+		throw new ErrorHandler(error.mensagem, httpStatus.BAD_REQUEST, false)
+	}
+	logInfo(`Returning ${methodName}`, response, LOG_CASH_REGISTER)
+	return response
+}
+
+
 module.exports = {
 	getCashRegisterListService,
 	getCashRegisterByIdService,
 	postCashRegisterService,
 	putCashRegisterService,
-	deleteCashRegisterService
+	deleteCashRegisterService,
+	closeCashRegisterService
 }

@@ -3,7 +3,8 @@ const { logError, logInfo } =  require('../utils/log-config')
 const {	LOG_CLOSURE } = require('../utils/log-categories')
 const ErrorHandler = require('../../handlers/error.handler')
 const { 
-		postNewClousureRepository
+		postNewClousureRepository,
+		getClousuresByCashRegisterIdRepository
 } = require('./closure.repository')
 
 async function postNewClousureService (p_id_conta_cliente, p_id_mesa, json_fechamento) {
@@ -23,6 +24,21 @@ async function postNewClousureService (p_id_conta_cliente, p_id_mesa, json_fecha
 	return response
 }
 
+async function getClousuresByCashRegisterIdService (idCaixa) {
+	let methodName = 'getClousuresByCashRegisterIdService'
+	let response
+	try {
+		logInfo(`Entering ${methodName}`, '', LOG_CLOSURE)
+		response = await getClousuresByCashRegisterIdRepository(idCaixa)
+	} catch (error) {
+		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)}]`, LOG_CLOSURE)
+		throw new ErrorHandler(error.mensagem, httpStatus.BAD_REQUEST, false)
+	}
+	logInfo(`Returning ${methodName}`, response, LOG_CLOSURE)
+	return response
+}
+
 module.exports = {
-	postNewClousureService
+	postNewClousureService,
+	getClousuresByCashRegisterIdService
 }
