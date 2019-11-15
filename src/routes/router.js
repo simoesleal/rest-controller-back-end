@@ -23,6 +23,7 @@ const waiterRequest = require('../api/waiter_request/waiter_request.router')
 const unitMeasurement = require('../api/unit_measurement/unit_measurement.router')
 const customerAccount = require('../api/customer_account/customer.account.router')
 const closure = require('../api/closure/closure.router')
+const typeDocument = require('../api/type_document/type.document.router')
 
 const router = express.Router()
 
@@ -54,6 +55,7 @@ router.use('/pedidos', waiterRequest)
 router.use('/unidade-medida', unitMeasurement)
 router.use('/conta-cliente', customerAccount)
 router.use('/fechamento', closure)
+router.use('/tipo-documento', typeDocument)
 
 module.exports = router
  

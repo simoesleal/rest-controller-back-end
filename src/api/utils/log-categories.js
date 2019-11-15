@@ -21,6 +21,7 @@ const LOG_WAITER_REQUEST = 'registration/waiter_request'
 const LOG_UNIT_MEASUREMENT = 'registration/unit_measurement'
 const LOG_CUSTOMER_ACCOUNT = 'registration/customer_account'
 const LOG_CLOSURE = 'registration/clousure'
+const LOG_TYPE_DOCUMENT = 'registration/type_document'
 
 module.exports = {
   LOG_COUNTRY,
@@ -45,5 +46,6 @@ module.exports = {
   LOG_WAITER_REQUEST,
   LOG_UNIT_MEASUREMENT,
   LOG_CUSTOMER_ACCOUNT,
-  LOG_CLOSURE
+  LOG_CLOSURE,
+  LOG_TYPE_DOCUMENT
 }
