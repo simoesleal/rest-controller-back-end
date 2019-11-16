@@ -14,7 +14,7 @@ const SELECT_BANK_ACCOUNT_BY_ACCOUNT = `SELECT conta_bancaria.id, conta_bancaria
 		 conta_bancaria.numero_conta, conta_bancaria.digito_conta, id_banco, banco.banco as nome_banco
 FROM conta_bancaria
 INNER JOIN banco ON conta_bancaria.id_banco=banco.id
-where conta_bancaria.conta_corrente = ($1);`											
+where conta_bancaria.numero_conta = ($1);`											
 
 const INSERT_NEW_BANK_ACCOUNT = `INSERT INTO conta_bancaria (id_banco, conta_bancaria, agencia, digito_agencia, numero_conta, digito_conta) VALUES ($1, $2, $3, $4, $5, $6)`
 

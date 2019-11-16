@@ -12,7 +12,7 @@ const router = express.Router()
 
 router.get('/consultar/conta-bancaria', getBankAccountList)
 router.get('/consultar/conta-bancaria/:id', getBankAccountById)
-router.get('/consultar/conta-bancaria/descricao/:name', getBankAccountByNumberAccount)
+router.get('/consultar/conta-bancaria/descricao/:accountNumber', getBankAccountByNumberAccount)
 router.post('/cadastrar/conta-bancaria/', postBankAccount)
 router.put('/atualizar/conta-bancaria/', putBankAccount)
 router.delete('/deletar/conta-bancaria/:id', deleteBankAccount)
