@@ -6,8 +6,6 @@ const {
 	INSERT_NEW_WAITER_REQUEST
 } = require('./waiter_request.queries')
 
-
-
 async function insertNewWaiterRequestRepository (idMesa, idFuncionario, idContaCliente, produtos, transaction = null) {
   let response
   try {

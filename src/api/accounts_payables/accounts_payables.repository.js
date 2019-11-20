@@ -5,10 +5,13 @@ const DefaultError = require('../../handlers/default-error.handler')
 const { 
 	SELECT_ACCOUNTS_PAYABLES,
 	SELECT_ACCOUNT_PAYABLE_BY_ID,
-	SELECT_ACCOUNT_PAYABLE_BY_NUMBER,
-	INSERT_NEW_ACCOUNT_PAYABLE,
+	SELECT_ACCOUNT_PAYABLE_BY_IDENTIFIER,
 	UPDATE_ACCOUNT_PAYABLE,
-	DELETE_ACCOUNT_PAYABLE
+	DELETE_ACCOUNT_PAYABLE_AND_INSTALLMENTS,
+  CREATE_NEW_ACCOUNT_PAYABLE,
+  SELECT_INSTALLMENTS_BY_ACCOUNT_ID,
+  SELECT_INSTALLMENTS,
+  DELETE_ACCOUNT_INSTALLMENTS
 } = require('./accounts_payables.queries')
 
 async function getAccountPayablesListRepository (transaction = null) {
@@ -35,58 +38,99 @@ async function getAccountPayableByIdRepository (id, transaction = null) {
   return camelize(accountPayable)
 }
 
-async function getAccountPayableByNumberRepository (number, transaction = null) {
+async function getAccountPayableByIdentifierRepository (number, transaction = null) {
   let accountPayable
   try {
     transaction = await validaTransaction(transaction)
-    const QUERY = new PreparedStatement({name: 'select-account-payable-by-number', text: SELECT_ACCOUNT_PAYABLE_BY_NUMBER, values: [number]})
-    accountPayable = await transaction.oneOrNone(QUERY)
+    const QUERY = new PreparedStatement({name: 'select-account-payable-by-identifier', text: SELECT_ACCOUNT_PAYABLE_BY_IDENTIFIER, values: [number]})
+    accountPayable = await transaction.manyOrNone(QUERY)
   } catch (error) {
       throw new DefaultError(`Não foi possível buscar esta conta a pagar, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
   }
   return camelize(accountPayable)
 }
 
-async function postAccountPayableRepository (number, issueDay, dueDay, installmentValue, totalValue, historic, observations, id_fornecedor, id_moeda, id_conta_bancaria, id_forma_pagamento, id_condicao_pagamento,  transaction = null) {
+async function putAccountPayableRepository (id, idFornecedor, idMoeda, idTipoDocumento, idContaBancaria, transaction = null) {
   let response
   try {
     transaction = await validaTransaction(transaction)
-    const QUERY = new PreparedStatement({name: 'insert-new-account-payable', text: INSERT_NEW_ACCOUNT_PAYABLE, values: [number, issueDay, dueDay, installmentValue, totalValue, historic, observations, id_fornecedor, id_moeda, id_conta_bancaria, id_forma_pagamento, id_condicao_pagamento]})
-    response = await transaction.query(QUERY)
-  } catch (error) {
-      throw new DefaultError(`Não foi possível criar esta conta a pagar, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
-  }
-  return camelize(response)
-}
-
-async function putAccountPayableRepository (id, number, issueDay, dueDay, installmentValue, totalValue, historic, observations, id_fornecedor, id_moeda, id_conta_bancaria, id_forma_pagamento, id_condicao_pagamento, transaction = null) {
-  let response
-  try {
-    transaction = await validaTransaction(transaction)
-    const QUERY = new PreparedStatement({name: 'update-account-payable', text: UPDATE_ACCOUNT_PAYABLE, values: [id, number, issueDay, dueDay, installmentValue, totalValue, historic, observations, id_fornecedor, id_moeda, id_conta_bancaria, id_forma_pagamento, id_condicao_pagamento]})
+    const QUERY = new PreparedStatement({name: 'update-account-payable', text: UPDATE_ACCOUNT_PAYABLE, values: [id, idFornecedor, idMoeda, idTipoDocumento, idContaBancaria]})
     response = await transaction.query(QUERY)
   } catch (error) {
     throw new DefaultError(`Não foi possível atualizar esta conta a pagar, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
   }
   return camelize(response)
 }
-async function deleteAccountPayableRepository (id, transaction = null) {
+
+async function deleteAccountPayableInstallmentsRepository (id, transaction = null) {
   let response
   try {
     transaction = await validaTransaction(transaction)
-    const QUERY = new PreparedStatement({name: 'delete-state', text: DELETE_ACCOUNT_PAYABLE, values: [id]})
+    const QUERY = new PreparedStatement({name: 'delete-account-payable-and-installments', text: DELETE_ACCOUNT_PAYABLE_AND_INSTALLMENTS, values: [id]})
     response = await transaction.query(QUERY)
   } catch (error) {
-    throw new DefaultError(`Não foi possível deletar esta conta a pagar, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
+    throw new DefaultError(`Não foi possível deletar esta conta a pagar e suas parcelas, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
   }
   return camelize(response)
+}
+
+async function deleteAccountInstallmentsRepository (id, transaction = null) {
+  let response
+  try {
+    transaction = await validaTransaction(transaction)
+    const QUERY = new PreparedStatement({name: 'delete-account-installments', text: DELETE_ACCOUNT_INSTALLMENTS, values: [id]})
+    response = await transaction.query(QUERY)
+  } catch (error) {
+    throw new DefaultError(`Não foi possível deletar as parcelas desta conta, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
+  }
+  return camelize(response)
+}
+
+async function createNewAccountPayableRepository (identifier, qtdInstallment, totalValue, description, idFornecedor, idTipoDocumento, idContaBancaria, idMoeda, Installment, transaction = null) {
+  let response
+  try {
+    transaction = await validaTransaction(transaction)
+    const QUERY = new PreparedStatement({name: 'create-new-account-payable', text: CREATE_NEW_ACCOUNT_PAYABLE, values: [identifier, qtdInstallment, totalValue, description, idFornecedor, idTipoDocumento, idContaBancaria, idMoeda, JSON.stringify(Installment)]})
+    idMoeda, JSON.stringify(Installment))
+    response = await transaction.query(QUERY)
+  } catch (error) {
+      throw new DefaultError(`Não foi criar esta conta a pagar, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code}]`)
+  }
+  return camelize(response)
+}
+
+async function getInstallmentsByAccountIdRepository (id, transaction = null) {
+  let accountPayable
+  try {
+    transaction = await validaTransaction(transaction)
+    const QUERY = new PreparedStatement({name: 'select-installments-by-account-id', text: SELECT_INSTALLMENTS_BY_ACCOUNT_ID, values: [id]})
+    accountPayable = await transaction.manyOrNone(QUERY)
+  } catch (error) {
+      throw new DefaultError(`Não foi possível buscar as parcelas, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
+  }
+  return camelize(accountPayable)
+}
+
+async function getInstallmentsRepository (transaction = null) {
+  let accountPayable
+  try {
+    transaction = await validaTransaction(transaction)
+    const QUERY = new PreparedStatement({name: 'select-installments', text: SELECT_INSTALLMENTS})
+    accountPayable = await transaction.manyOrNone(QUERY)
+  } catch (error) {
+      throw new DefaultError(`Não foi possível buscar as parcelas, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
+  }
+  return camelize(accountPayable)
 }
 
 module.exports = {
 	getAccountPayablesListRepository,
   getAccountPayableByIdRepository,
-  getAccountPayableByNumberRepository,
-  postAccountPayableRepository,
+  getAccountPayableByIdentifierRepository,
   putAccountPayableRepository,
-  deleteAccountPayableRepository
+  deleteAccountPayableInstallmentsRepository,
+  createNewAccountPayableRepository,
+  getInstallmentsByAccountIdRepository,
+  getInstallmentsRepository,
+  deleteAccountInstallmentsRepository
 }
