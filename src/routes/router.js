@@ -24,6 +24,9 @@ const unitMeasurement = require('../api/unit_measurement/unit_measurement.router
 const customerAccount = require('../api/customer_account/customer.account.router')
 const closure = require('../api/closure/closure.router')
 const typeDocument = require('../api/type_document/type.document.router')
+const accountsReceivable = require('../api/accounts_receivables/accounts.receivables.router')
+const installmentsPayables = require('../api/installment_payables/installment.payables.router')
+const installmentsReceivables = require('../api/installment_receivables/installment.receivables.router')
 
 const router = express.Router()
 
@@ -56,6 +59,9 @@ router.use('/unidade-medida', unitMeasurement)
 router.use('/conta-cliente', customerAccount)
 router.use('/fechamento', closure)
 router.use('/tipo-documento', typeDocument)
+router.use('/contas-a-receber', accountsReceivable)
+router.use('/parcelas-a-pagar', installmentsPayables)
+router.use('/parcelas-a-receber', installmentsReceivables)
 
 module.exports = router
  

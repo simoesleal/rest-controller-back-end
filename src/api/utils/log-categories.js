@@ -22,6 +22,10 @@ const LOG_UNIT_MEASUREMENT = 'registration/unit_measurement'
 const LOG_CUSTOMER_ACCOUNT = 'registration/customer_account'
 const LOG_CLOSURE = 'registration/clousure'
 const LOG_TYPE_DOCUMENT = 'registration/type_document'
+const LOG_ACCOUNT_PAYABLES = 'accounts/account_payable'
+const LOG_ACCOUNT_RECEIVABLES = 'accounts/account_receivables'
+const LOG_INSTALLMENTS_PAYABLES = 'accounts/installments_payables'
+const LOG_INSTALLMENTS_RECEIVABLES = 'accounts/installments_receivables'
 
 module.exports = {
   LOG_COUNTRY,
@@ -47,5 +51,9 @@ module.exports = {
   LOG_UNIT_MEASUREMENT,
   LOG_CUSTOMER_ACCOUNT,
   LOG_CLOSURE,
-  LOG_TYPE_DOCUMENT
+  LOG_TYPE_DOCUMENT,
+  LOG_ACCOUNT_PAYABLES,
+  LOG_ACCOUNT_RECEIVABLES,
+  LOG_INSTALLMENTS_PAYABLES,
+  LOG_INSTALLMENTS_RECEIVABLES
 }

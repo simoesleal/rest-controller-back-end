@@ -1,6 +1,6 @@
 /* Tabela Pais */
 const SELECT_CUSTOMERS = `SELECT cliente.id, cliente.nome, cliente.sobrenome, cliente.data_nascimento, cliente.sexo, cliente.status, 
-cliente.docs,  cliente.tipo_doc, cliente.org_exp, cliente.email, cliente.telefone, cliente.celular, cliente.preferencias, 
+cliente.docs, cliente.email, cliente.telefone, cliente.celular, cliente.preferencias, 
 endereco.id as id_endereco, endereco.cep, endereco.rua, endereco.numero, endereco.bairro, endereco.complemento, endereco.pais as pais, endereco.estado as estado, endereco.cidade as cidade
 FROM cliente
 INNER JOIN endereco ON cliente.id_endereco=endereco.id;`
