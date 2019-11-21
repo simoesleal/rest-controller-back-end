@@ -91,7 +91,6 @@ async function createNewAccountPayableRepository (identifier, qtdInstallment, to
   try {
     transaction = await validaTransaction(transaction)
     const QUERY = new PreparedStatement({name: 'create-new-account-payable', text: CREATE_NEW_ACCOUNT_PAYABLE, values: [identifier, qtdInstallment, totalValue, description, idFornecedor, idTipoDocumento, idContaBancaria, idMoeda, JSON.stringify(Installment)]})
-    idMoeda, JSON.stringify(Installment))
     response = await transaction.query(QUERY)
   } catch (error) {
       throw new DefaultError(`Não foi criar esta conta a pagar, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code}]`)
