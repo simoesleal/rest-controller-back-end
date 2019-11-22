@@ -15,7 +15,7 @@ async function getInstallmentsRepository (transaction = null) {
   let accountPayable
   try {
     transaction = await validaTransaction(transaction)
-    const QUERY = new PreparedStatement({name: 'select-installments', text: SELECT_INSTALLMENTS})
+    const QUERY = new PreparedStatement({name: 'select-installments_receivables', text: SELECT_INSTALLMENTS})
     accountPayable = await transaction.manyOrNone(QUERY)
   } catch (error) {
       throw new DefaultError(`Não foi possível buscar as parcelas, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
