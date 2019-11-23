@@ -23,9 +23,10 @@ const UPDATE_INSTALLMENT_BY_ID = `UPDATE parcelas_a_receber
 SET data_emissao = ($2), data_vencimento = ($3), data_apropriacao = ($4), descricao = ($5)
 WHERE id = ($1);`
 
-const SET_INSTALLMENT_PAID_BY_ID = `UPDATE parcelas_a_receber SET status = 'PAGA' WHERE id = ($1);`
+const SET_INSTALLMENT_PAID_BY_ID = `UPDATE parcelas_a_receber SET status = 'PAGA', data_apropriacao = ($2) WHERE id = ($1);`
 
 const SET_INSTALLMENT_CANCELED_BY_ID = `UPDATE parcelas_a_receber SET status = 'CANCELADA' WHERE id = ($1);`
+
 module.exports = {
 	SELECT_INSTALLMENTS_BY_ACCOUNT_ID,
 	SELECT_INSTALLMENTS,

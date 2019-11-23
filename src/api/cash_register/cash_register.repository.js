@@ -8,7 +8,8 @@ const {
 	INSERT_NEW_CASH_REGISTER,
 	UPDATE_CASH_REGISTER,
 	DELETE_CASH_REGISTER,
-  CLOSE_CASH_REGISTER
+  CLOSE_CASH_REGISTER,
+  INSERT_NEW_CASH_QUOTATION
 } = require('./cash_register.queries')
 
 async function getCashRegisterListRepository (transaction = null) {
@@ -35,23 +36,23 @@ async function getCashRegisterByIdRepository (id, transaction = null) {
   return camelize(cashRegister)
 }
 
-async function postCashRegisterRepository (id_funcionario, id_cotacao, saldo_inicial, saldo_final, fundo_real, fundo_dolar, fundo_peso, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos, troco, transaction = null) {
+async function postCashRegisterRepository (id_funcionario, saldo_inicial, saldo_final, fundo_real, fundo_dolar, fundo_peso, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos, transaction = null) {
   let response
   try {
     transaction = await validaTransaction(transaction)
-    const QUERY = new PreparedStatement({name: 'insert-new-cash-register', text: INSERT_NEW_CASH_REGISTER, values: [id_funcionario, id_cotacao, saldo_inicial, saldo_final, fundo_real, fundo_dolar, fundo_peso, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos, troco]})
-    response = await transaction.query(QUERY)
+    const QUERY = new PreparedStatement({name: 'insert-new-cash-register', text: INSERT_NEW_CASH_REGISTER, values: [id_funcionario, saldo_inicial, saldo_final, fundo_real, fundo_dolar, fundo_peso, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos]})
+    response = await transaction.one(QUERY)
   } catch (error) {
       throw new DefaultError(`Não foi possível abrir este caixa, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
   }
   return camelize(response)
 }
 
-async function putCashRegisterRepository (id, id_funcionario, id_cotacao, initialBalance, finalBalance, dateTimeBegining, dateTimeEnd, transaction = null) {
+async function putCashRegisterRepository (id, id_funcionario, id_cotacao_dolar, id_cotacao_peso, id_cotacao_guarani, initialBalance, finalBalance, dateTimeBegining, dateTimeEnd, transaction = null) {
   let response
   try {
     transaction = await validaTransaction(transaction)
-    const QUERY = new PreparedStatement({name: 'update-cash-register', text: UPDATE_CASH_REGISTER, values: [id, id_funcionario, id_cotacao, initialBalance, finalBalance, dateTimeBegining, dateTimeEnd]})
+    const QUERY = new PreparedStatement({name: 'update-cash-register', text: UPDATE_CASH_REGISTER, values: [id, id_funcionario, id_cotacao_dolar, id_cotacao_peso, id_cotacao_guarani, initialBalance, finalBalance, dateTimeBegining, dateTimeEnd]})
     response = await transaction.query(QUERY)
   } catch (error) {
     throw new DefaultError(`Não foi possível atualizar este caixa, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
@@ -82,11 +83,24 @@ async function closeCashRegisterRepository (id, saldo_final, fechamentos_real, f
   }
   return camelize(response)
 }
+
+async function postCashQuotationRepository (id_caixa, id_cotacao, transaction = null) {
+  let response
+  try {
+    transaction = await validaTransaction(transaction)
+    const QUERY = new PreparedStatement({name: 'insert-new-cash-quotation', text: INSERT_NEW_CASH_QUOTATION, values: [id_caixa, id_cotacao]})
+    response = await transaction.none(QUERY)
+  } catch (error) {
+      throw new DefaultError(`Não foi possível definir as catações detes caixa, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
+  }
+  return camelize(response)
+}
 module.exports = {
 	getCashRegisterListRepository,
   getCashRegisterByIdRepository,
   postCashRegisterRepository,
   putCashRegisterRepository,
   deletCashRegisterRepository,
-  closeCashRegisterRepository
+  closeCashRegisterRepository,
+  postCashQuotationRepository
 }
