@@ -59,11 +59,11 @@ async function putInstallmetByIdRepository (id, dataEmissao, dataVencimento, dat
   return camelize(response)
 }
 
-async function setInstallmetPaidByIdRepository (id, transaction = null) {
+async function setInstallmetPaidByIdRepository (id, dataApropriacao, transaction = null) {
   let response
   try {
     transaction = await validaTransaction(transaction)
-    const QUERY = new PreparedStatement({name: 'set-installment-paid-by-id', text: SET_INSTALLMENT_PAID_BY_ID, values: [id]})
+    const QUERY = new PreparedStatement({name: 'set-installment-paid-by-id', text: SET_INSTALLMENT_PAID_BY_ID, values: [id, dataApropriacao]})
     response = await transaction.query(QUERY)
   } catch (error) {
     throw new DefaultError(`Não foi possível baixar esta parcela, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)

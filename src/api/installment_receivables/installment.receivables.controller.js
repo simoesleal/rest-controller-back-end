@@ -53,10 +53,10 @@ async function putInstallmetById (req, res, next) {
 }
 
 async function setInstallmetPaidById (req, res, next) {
-	const { id } = req.body
+	const { id, dataApropriacao } = req.body
 	let response
 	try {
-		response = await setInstallmetPaidByIdService(id)
+		response = await setInstallmetPaidByIdService(id, dataApropriacao)
 	} catch (error) {
 		return next(error)
 	}

@@ -4,7 +4,9 @@ const {
 	getQuotationListService,
 	postQuotationService,
 	putQuotationService,
-	deleteQuotationService
+	deleteQuotationService,
+	getQuotationByCoinIdService,
+	updataQuotationCashierService
 } = require('./quotation.service')
 
 async function getQuotationList (req, res, next) {
@@ -50,9 +52,33 @@ async function deleteQuotation (req, res, next) {
 	return res.json(new DataHandler(httpStatus.OK, 'Cotação excluída com sucesso.', response))
 }
 
+async function getQuotationByCoinId (req, res, next) {
+	let response
+	try {
+		response = await getQuotationByCoinIdService()
+	} catch (error) {
+		return next(error)
+	}
+	return res.json(new DataHandler(httpStatus.OK, 'Consulta de cotações realizada com sucesso.', response))
+}
+
+async function updataQuotationCashier (req, res, next) {
+	const { dolarQuotation, pesoQuotation, gueraniQuotation } = req.body
+	let response
+	try {
+		response = await updataQuotationCashierService(dolarQuotation, pesoQuotation, gueraniQuotation)
+	} catch (error) {
+		return next(error)
+	}
+	return res.json(new DataHandler(httpStatus.OK, 'Cotação atualizada com sucesso.', response))
+}
+
+
 module.exports = {
 	getQuotationList,
 	postQuotation,
 	putQuotation,
-	deleteQuotation
+	deleteQuotation,
+	getQuotationByCoinId,
+	updataQuotationCashier
 }

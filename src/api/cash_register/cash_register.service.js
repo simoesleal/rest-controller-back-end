@@ -13,7 +13,8 @@ const {
   postCashRegisterRepository,
   putCashRegisterRepository,
   deletCashRegisterRepository,
-	closeCashRegisterRepository
+	closeCashRegisterRepository,
+	postCashQuotationRepository
 } = require('./cash_register.repository')
 
 async function getCashRegisterListService () {
@@ -45,16 +46,18 @@ async function getCashRegisterByIdService (id) {
 }
 
 
-async function postCashRegisterService (id_funcionario, id_cotacao, saldo_inicial, saldo_final, fundo_real, fundo_dolar, fundo_peso, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos, troco) {
+async function postCashRegisterService (id_funcionario, saldo_inicial, saldo_final, fundo_real, fundo_dolar, fundo_peso, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos) {
 	let methodName = 'postCashRegisterService'
 	let response
 	try {
 
-		logInfo(`Entering ${methodName}`, `id_funcionario = [${id_funcionario}], id_cotacao = [${id_cotacao}],saldo_inicial = [${saldo_inicial}], saldo_final = [${saldo_final}], fundo_real = [${fundo_real}], fundo_dolar = [${fundo_dolar}], fundo_peso = [${fundo_peso}], fechamentos_real = [${fechamentos_real}], fechamentos_dolar = [${fechamentos_dolar}], fechamentos_peso = [${fechamentos_peso}], fechamentos_cartao_cred = [${fechamentos_cartao_cred}], fechamentos_cartao_deb = [${fechamentos_cartao_deb}], valor_total_fechamentos = [${valor_total_fechamentos}], troco = [${troco}]`, LOG_CASH_REGISTER)
 
-		await validateNewCashRegister(id_funcionario, id_cotacao, saldo_inicial, saldo_final, fundo_real, fundo_dolar, fundo_peso, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos, troco)
-		response = await postCashRegisterRepository(id_funcionario, id_cotacao, saldo_inicial, saldo_final, fundo_real, fundo_dolar, fundo_peso, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos, troco)
-	
+		/* logInfo(`Entering ${methodName}`, `id_funcionario = [${id_funcionario}], saldo_inicial = [${saldo_inicial}], saldo_final = [${saldo_final}], fundo_real = [${fundo_real}], fundo_dolar = [${fundo_dolar}], fundo_peso = [${fundo_peso}], fechamentos_real = [${fechamentos_real}], fechamentos_dolar = [${fechamentos_dolar}], fechamentos_peso = [${fechamentos_peso}], fechamentos_cartao_cred = [${fechamentos_cartao_cred}], fechamentos_cartao_deb = [${fechamentos_cartao_deb}], valor_total_fechamentos = [${valor_total_fechamentos}], troco = [${troco}]`, LOG_CASH_REGISTER) */
+
+		/* await validateNewCashRegister(id_funcionario, saldo_inicial, saldo_final, fundo_real, fundo_dolar, fundo_peso, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos) */
+
+		response = await postCashRegisterRepository(id_funcionario, saldo_inicial, saldo_final, fundo_real, fundo_dolar, fundo_peso, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos)
+		await postCashQuotation(response.id) 
 
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_CASH_REGISTER)
@@ -73,6 +76,7 @@ async function putCashRegisterService (id, id_funcionario, id_cotacao, initialBa
 		await validateUpdateCashRegister(id, id_funcionario, id_cotacao, initialBalance, finalBalance, dateTimeBegining, dateTimeEnd)
 
 		response = await putCashRegisterRepository(id, id_funcionario, id_cotacao, initialBalance, finalBalance, dateTimeBegining, dateTimeEnd)
+		await postCashRegisterService(response)
 
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_CASH_REGISTER)
@@ -114,6 +118,21 @@ async function closeCashRegisterService (id, saldo_final, fechamentos_real, fech
 	return response
 }
 
+async function postCashQuotation (id_caixa) {
+	let methodName = 'postCashQuotation'
+	let response
+	try {
+		logInfo(`Entering ${methodName}`, `id_caixa = [${id_caixa}]`, LOG_CASH_REGISTER)
+		 await postCashQuotationRepository(id_caixa, 5)
+		 await postCashQuotationRepository(id_caixa, 2)
+		 await postCashQuotationRepository(id_caixa, 3)
+	} catch (error) {
+		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_CASH_REGISTER)
+		throw new ErrorHandler(error.mensagem, httpStatus.BAD_REQUEST, false)
+	}
+	logInfo(`Returning ${methodName}`, response, LOG_CASH_REGISTER)
+	return response
+}
 
 module.exports = {
 	getCashRegisterListService,
@@ -121,5 +140,6 @@ module.exports = {
 	postCashRegisterService,
 	putCashRegisterService,
 	deleteCashRegisterService,
-	closeCashRegisterService
+	closeCashRegisterService,
+	
 }

@@ -73,12 +73,12 @@ async function putInstallmetByIdService (id, dataEmissao, dataVencimento, dataAp
 	return response
 }
 
-async function setInstallmetPaidByIdService (id) {
+async function setInstallmetPaidByIdService (id, dataApropriacao) {
 	let methodName = 'setInstallmetPaidByIdService'
 	let response
 	try {
-		logInfo(`Entering ${methodName}`, `id = [${id}]`, LOG_INSTALLMENTS_RECEIVABLES)
-		response = await setInstallmetPaidByIdRepository(id)
+		logInfo(`Entering ${methodName}`, `id = [${id}], dataApropriacao = [${dataApropriacao}], `, LOG_INSTALLMENTS_RECEIVABLES)
+		response = await setInstallmetPaidByIdRepository(id, dataApropriacao)
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_INSTALLMENTS_RECEIVABLES)
 		throw new ErrorHandler(error.mensagem, httpStatus.BAD_REQUEST, false)

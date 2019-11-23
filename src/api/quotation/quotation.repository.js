@@ -4,10 +4,11 @@ const { PreparedStatement } = require('pg-promise')
 const DefaultError = require('../../handlers/default-error.handler')
 const { 
 	SELECT_QUOTATIONS,
-	SELECT_QUOTATION,
 	INSERT_NEW_QUOTATION,
 	UPDATE_QUOTATION,
-	DELETE_QUOTATION
+	DELETE_QUOTATION,
+  SELECT_QUOTATION_BY_COIN_ID,
+  UPDATE_QUOTATION_CASHIER
 } = require('./quotation.queries')
 
 async function getQuotationListRepository (transaction = null) {
@@ -46,6 +47,7 @@ async function putQuotationRepository (id, quotation, id_coin, transaction = nul
   }
   return camelize(response)
 }
+
 async function deleteQuotationRepository (id, transaction = null) {
   let response
   try {
@@ -58,9 +60,34 @@ async function deleteQuotationRepository (id, transaction = null) {
   return camelize(response)
 }
 
+async function getQuotationByCoinIdRepository (value, transaction = null) {
+  let response
+  try {
+    transaction = await validaTransaction(transaction)
+    const QUERY = new PreparedStatement({name: 'select-quotations-by-coin-id', text: SELECT_QUOTATION_BY_COIN_ID, values: [value]})
+    response = await transaction.one(QUERY)
+  } catch (error) {
+      throw new DefaultError(`Não foi possível buscar a listagem de cotações, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
+  }
+  return camelize(response)
+}
+
+async function updataQuotationCashierRepository (id, quotation, transaction = null) {
+  let response
+  try {
+    transaction = await validaTransaction(transaction)
+    const QUERY = new PreparedStatement({name: 'update-quotation_cashies', text: UPDATE_QUOTATION_CASHIER, values: [id, quotation]})
+    response = await transaction.query(QUERY)
+  } catch (error) {
+    throw new DefaultError(`Não foi possível atualizar esta cotação, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
+  }
+  return camelize(response)
+}
 module.exports = {
   getQuotationListRepository,
   postQuotationRepository,
   putQuotationRepository,
-  deleteQuotationRepository
+  deleteQuotationRepository,
+  getQuotationByCoinIdRepository,
+  updataQuotationCashierRepository
 }

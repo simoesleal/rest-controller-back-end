@@ -10,7 +10,9 @@ const {
   getQuotationListRepository,
   postQuotationRepository,
   putQuotationRepository,
-  deleteQuotationRepository
+  deleteQuotationRepository,
+	getQuotationByCoinIdRepository,
+	updataQuotationCashierRepository
 } = require('./quotation.repository')
 
 async function getQuotationListService () {
@@ -71,9 +73,44 @@ async function deleteQuotationService (id) {
 	return response
 }
 
+async function getQuotationByCoinIdService () {
+	let methodName = 'getQuotationByCoinIdService'
+	let dolarQuotation, pesoQuotation, gueraniQuotation
+	try {
+		logInfo(`Entering ${methodName}`, '', LOG_QUOTATION)
+	  dolarQuotation = await getQuotationByCoinIdRepository(2)
+		pesoQuotation = await getQuotationByCoinIdRepository(3)
+		gueraniQuotation = await getQuotationByCoinIdRepository(4)
+	} catch (error) {
+		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_QUOTATION)
+		throw new ErrorHandler(error.mensagem, httpStatus.BAD_REQUEST, false)
+	}
+	logInfo(`Returning ${methodName}`, {dolarQuotation,  pesoQuotation, gueraniQuotation}, LOG_QUOTATION)
+	return {dolarQuotation,  pesoQuotation, gueraniQuotation}
+}
+
+async function updataQuotationCashierService (dolarQuotation, pesoQuotation, gueraniQuotation) {
+	let methodName = 'updataQuotationCashierService'
+	try {
+		logInfo(`Entering ${methodName}`, `dolarQuotation = [${JSON.stringify(dolarQuotation)}], pesoQuotation = [${JSON.stringify(pesoQuotation)}], gueraniQuotation = [${JSON.stringify(gueraniQuotation)}]`, LOG_QUOTATION)
+		await updataQuotationCashierRepository(dolarQuotation.id, dolarQuotation.cotacao)
+		await updataQuotationCashierRepository(pesoQuotation.id, pesoQuotation.cotacao)
+		await updataQuotationCashierRepository(gueraniQuotation.id, gueraniQuotation.cotacao)
+	} catch (error) {
+		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_QUOTATION)
+		throw new ErrorHandler(error.mensagem, httpStatus.BAD_REQUEST, false)
+	}
+	logInfo(`Returning ${methodName}`, '', LOG_QUOTATION)
+	return
+}
+
+
+
 module.exports = {
 	getQuotationListService,
 	postQuotationService,
 	putQuotationService,
-	deleteQuotationService
+	deleteQuotationService,
+	getQuotationByCoinIdService,
+	updataQuotationCashierService
 }
