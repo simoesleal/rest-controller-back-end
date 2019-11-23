@@ -128,13 +128,13 @@ async function getCustomerByCellphoneService (cellphone) {
 	return customer
 }
 
-async function postCustomerService (name, lastName, birth, sex, status, docs, docType, orgExp, email, phone, cellphone, preferences, id_endereco) {
+async function postCustomerService (name, lastName, birth, sex, status, docs, email, phone, cellphone, preferences, id_endereco) {
 	let methodName = 'postCustomerService'
 	let response
 	try {
-		logInfo(`Entering ${methodName}`, `name = [${name}], lastName = [${lastName}], birth = [${birth}], sex = [${sex}], status = [${status}], docs = [${docs}], docType = [${docType}], orgExp = [${orgExp}], email = [${email}], phone = [${phone}], cellphone = [${cellphone}], preferences = [${preferences}], id_endereco = [${id_endereco}]`, LOG_CUSTOMER)
+		logInfo(`Entering ${methodName}`, `name = [${name}], lastName = [${lastName}], birth = [${birth}], sex = [${sex}], status = [${status}], docs = [${docs}], email = [${email}], phone = [${phone}], cellphone = [${cellphone}], preferences = [${preferences}], id_endereco = [${id_endereco}]`, LOG_CUSTOMER)
 		await validateNewCustomer(name, id_endereco)
-		response = await postCustomerRepository(name, lastName, birth, sex, status, docs, docType, orgExp, email, phone, cellphone, preferences, id_endereco)
+		response = await postCustomerRepository(name, lastName, birth, sex, status, docs, email, phone, cellphone, preferences, id_endereco)
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_CUSTOMER)
 		throw new ErrorHandler(error.mensagem, httpStatus.BAD_REQUEST, false)
@@ -143,13 +143,13 @@ async function postCustomerService (name, lastName, birth, sex, status, docs, do
 	return response
 }
 
-async function putCustomerService (id, name, lastName, birth, sex, status, docs, docType, orgExp, email, phone, cellphone, preferences, id_endereco) {
+async function putCustomerService (id, name, lastName, birth, sex, status, docs, email, phone, cellphone, preferences, id_endereco) {
 	let methodName = 'putCustomerService'
 	let response
 	try {
-		logInfo(`Entering ${methodName}`, `id = [${id}], name = [${name}], lastName = [${lastName}], birth = [${birth}], sex = [${sex}], status = [${status}], docs = [${docs}], docType = [${docType}], orgExp = [${orgExp}], email = [${email}], phone = [${phone}], cellphone = [${cellphone}], preferences = [${preferences}], id_endereco = [${id_endereco}]`, LOG_CUSTOMER)
+		logInfo(`Entering ${methodName}`, `id = [${id}], name = [${name}], lastName = [${lastName}], birth = [${birth}], sex = [${sex}], status = [${status}], docs = [${docs}], email = [${email}], phone = [${phone}], cellphone = [${cellphone}], preferences = [${preferences}], id_endereco = [${id_endereco}]`, LOG_CUSTOMER)
 		await validateUpdateCustomer(id, name, id_endereco)
-		response = await putCustomerRepository(id, name, lastName, birth, sex, status, docs, docType, orgExp, email, phone, cellphone, preferences, id_endereco)
+		response = await putCustomerRepository(id, name, lastName, birth, sex, status, docs, email, phone, cellphone, preferences, id_endereco)
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_CUSTOMER)
 		throw new ErrorHandler(error.mensagem, httpStatus.BAD_REQUEST, false)
