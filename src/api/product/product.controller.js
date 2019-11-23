@@ -6,7 +6,8 @@ const {
 	getProductByNameService,
 	postProductService,
 	putProductService,
-	deleteProductService
+	deleteProductService,
+	getProductByMenuGroupService
 } = require('./product.service')
 
 async function getProductList (req, res, next) {
@@ -42,10 +43,10 @@ async function getProductByName (req, res, next) {
 }
 
 async function postProduct (req, res, next) {
-	const { name, description, purchase_price, sale_price, cost_price, current_quantity, max_quantity, min_quantity, status, id_grupo_produto, id_unidade } = req.body
+	const { name, description, purchase_price, sale_price, cost_price, current_quantity, max_quantity, min_quantity, status, id_grupo_produto, id_unidade, id_grupo_cardapio } = req.body
 	let response
 	try {
-		response = await postProductService(name, description, purchase_price, sale_price, cost_price, current_quantity, max_quantity, min_quantity, status, id_grupo_produto, id_unidade)
+		response = await postProductService(name, description, purchase_price, sale_price, cost_price, current_quantity, max_quantity, min_quantity, status, id_grupo_produto, id_unidade, id_grupo_cardapio)
 	} catch (error) {
 		return next(error)
 	}
@@ -53,10 +54,10 @@ async function postProduct (req, res, next) {
 }
 
 async function putProduct (req, res, next) {
-	const { id, name, description, purchase_price, sale_price, cost_price, current_quantity, max_quantity, min_quantity, status, id_grupo_produto, id_unidade } = req.body
+	const { id, name, description, purchase_price, sale_price, cost_price, current_quantity, max_quantity, min_quantity, status, id_grupo_produto, id_unidade, id_grupo_cardapio } = req.body
 	let response
 	try {
-		response = await putProductService(id, name, description, purchase_price, sale_price, cost_price, current_quantity, max_quantity, min_quantity, status, id_grupo_produto, id_unidade)
+		response = await putProductService(id, name, description, purchase_price, sale_price, cost_price, current_quantity, max_quantity, min_quantity, status, id_grupo_produto, id_unidade, id_grupo_cardapio)
 	} catch (error) {
 		return next(error)
 	}
@@ -74,11 +75,23 @@ async function deleteProduct (req, res, next) {
 	return res.json(new DataHandler(httpStatus.OK, 'Produto excluído com sucesso.', response))
 }
 
+async function getProductByMenuGroup (req, res, next) {
+	const { id } = req.params
+	let product
+	try {
+		product = await getProductByMenuGroupService(id)
+	} catch (error) {
+		return next(error)
+	}
+	return res.json(new DataHandler(httpStatus.OK, 'Consulta do Produto realizada com sucesso.', product))
+}
+
 module.exports = {
 	getProductList,
 	getProductById,
 	getProductByName,
 	postProduct,
 	putProduct,
-	deleteProduct
+	deleteProduct,
+	getProductByMenuGroup
 }

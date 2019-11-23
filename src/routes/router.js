@@ -27,6 +27,7 @@ const typeDocument = require('../api/type_document/type.document.router')
 const accountsReceivable = require('../api/accounts_receivables/accounts.receivables.router')
 const installmentsPayables = require('../api/installment_payables/installment.payables.router')
 const installmentsReceivables = require('../api/installment_receivables/installment.receivables.router')
+const menuGroup = require('../api/menu_group/menu.group.router')
 
 const router = express.Router()
 
@@ -62,6 +63,7 @@ router.use('/tipo-documento', typeDocument)
 router.use('/contas-a-receber', accountsReceivable)
 router.use('/parcelas-a-pagar', installmentsPayables)
 router.use('/parcelas-a-receber', installmentsReceivables)
+router.use('/grupos-cardapio', menuGroup)
 
 module.exports = router
  
