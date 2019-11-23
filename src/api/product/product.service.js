@@ -13,7 +13,8 @@ const {
   getProductByNameRepository,
   postProductRepository,
   putProductRepository,
-  deleteProductRepository
+  deleteProductRepository,
+	getProductByMenuGroupRepository
 } = require('./product.repository')
 
 async function getProductListService () {
@@ -59,15 +60,15 @@ async function getProductByNameService (name) {
 	return product
 }
 
-async function postProductService (name, description, purchase_price, sale_price, cost_price, current_quantity, max_quantity, min_quantity, status, id_grupo_produto, id_unidade) {
+async function postProductService (name, description, purchase_price, sale_price, cost_price, current_quantity, max_quantity, min_quantity, status, id_grupo_produto, id_unidade, id_grupo_cardapio) {
 	let methodName = 'postProductService'
 	let response
 	try {
-		logInfo(`Entering ${methodName}`, `name = [${name}], description = [${description}], purchase_price = [${purchase_price}], sale_price = [${sale_price}], cost_price = [${cost_price}], current_quantity = [${current_quantity}], max_quantity = [${max_quantity}], min_quantity = [${min_quantity}], status = [${status}], id_grupo_produto = [${id_grupo_produto}], id_unidade = [${id_unidade}]`, LOG_PRODUCT)
+		logInfo(`Entering ${methodName}`, `name = [${name}], description = [${description}], purchase_price = [${purchase_price}], sale_price = [${sale_price}], cost_price = [${cost_price}], current_quantity = [${current_quantity}], max_quantity = [${max_quantity}], min_quantity = [${min_quantity}], status = [${status}], id_grupo_produto = [${id_grupo_produto}], id_unidade = [${id_unidade}], id_grupo_cardapio = [${id_grupo_cardapio}]`, LOG_PRODUCT)
 
-		await validateNewProduct(name, purchase_price, sale_price, current_quantity, id_grupo_produto, id_unidade)
+		await validateNewProduct(name, purchase_price, sale_price, current_quantity, id_grupo_produto, id_unidade, id_grupo_cardapio)
 
-		response = await postProductRepository(name, description, purchase_price, sale_price, cost_price, current_quantity, max_quantity, min_quantity, status, id_grupo_produto, id_unidade)
+		response = await postProductRepository(name, description, purchase_price, sale_price, cost_price, current_quantity, max_quantity, min_quantity, status, id_grupo_produto, id_unidade, id_grupo_cardapio)
 
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_PRODUCT)
@@ -77,15 +78,15 @@ async function postProductService (name, description, purchase_price, sale_price
 	return response
 }
 
-async function putProductService (id, name, description, purchase_price, sale_price, cost_price, current_quantity, max_quantity, min_quantity, status, id_grupo_produto, id_unidade) {
+async function putProductService (id, name, description, purchase_price, sale_price, cost_price, current_quantity, max_quantity, min_quantity, status, id_grupo_produto, id_unidade, id_grupo_cardapio) {
 	let methodName = 'putProductService'
 	let response
 	try {
-		logInfo(`Entering ${methodName}`, `id = [${id}], name = [${name}], description = [${description}], purchase_price = [${purchase_price}], sale_price = [${sale_price}], cost_price = [${cost_price}], current_quantity = [${current_quantity}], max_quantity = [${max_quantity}], status = [${status}], id_grupo_produto = [${id_grupo_produto}], id_unidade = [${id_unidade}]`, LOG_PRODUCT)
+		logInfo(`Entering ${methodName}`, `id = [${id}], name = [${name}], description = [${description}], purchase_price = [${purchase_price}], sale_price = [${sale_price}], cost_price = [${cost_price}], current_quantity = [${current_quantity}], max_quantity = [${max_quantity}], status = [${status}], id_grupo_produto = [${id_grupo_produto}], id_unidade = [${id_unidade}], id_grupo_cardapio = [${id_grupo_cardapio}]`, LOG_PRODUCT)
 
-		await validateUpdateProduct(id, name, purchase_price, sale_price, current_quantity, id_grupo_produto, id_unidade)
+		await validateUpdateProduct(id, name, purchase_price, sale_price, current_quantity, id_grupo_produto, id_unidade, id_grupo_cardapio)
 
-		response = await putProductRepository(id, name, description, purchase_price, sale_price, cost_price, current_quantity, max_quantity, min_quantity, status, id_grupo_produto, id_unidade)
+		response = await putProductRepository(id, name, description, purchase_price, sale_price, cost_price, current_quantity, max_quantity, min_quantity, status, id_grupo_produto, id_unidade, id_grupo_cardapio)
 
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_PRODUCT)
@@ -109,11 +110,25 @@ async function deleteProductService (id) {
 	return response
 }
 
+async function getProductByMenuGroupService (id) {
+	let methodName = 'getProductByMenuGroupService'
+	let product
+	try {
+		logInfo(`Entering ${methodName}`, `id = [${id}]`, LOG_PRODUCT)
+		product = await getProductByMenuGroupRepository(id)
+	} catch (error) {
+		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_PRODUCT)
+		throw new ErrorHandler(error.mensagem, httpStatus.BAD_REQUEST, false)
+	}
+	logInfo(`Returning ${methodName}`, product, LOG_PRODUCT)
+	return product
+}
 module.exports = {
 	getProductListService,
 	getProductByIdService,
 	getProductByNameService,
 	postProductService,
 	putProductService,
-	deleteProductService
+	deleteProductService,
+	getProductByMenuGroupService
 }

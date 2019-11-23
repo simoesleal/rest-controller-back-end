@@ -5,7 +5,8 @@ const {
 	getProductByName,
 	postProduct,
 	putProduct,
-	deleteProduct
+	deleteProduct,
+	getProductByMenuGroup
 } = require('./product.controller')
 
 const router = express.Router()
@@ -16,5 +17,6 @@ router.get('/consultar/produto/descricao/:name', getProductByName)
 router.post('/cadastrar/produto/', postProduct)
 router.put('/atualizar/produto/', putProduct)
 router.delete('/deletar/produto/:id', deleteProduct)
+router.get('/consultar/produto/grupo-cardapio/:id', getProductByMenuGroup)
 
 module.exports = router

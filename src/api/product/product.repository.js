@@ -8,7 +8,8 @@ const {
 	SELECT_PRODUCT_BY_NAME,
 	INSERT_NEW_PRODUCT,
 	UPDATE_PRODUCT,
-	DELETE_PRODUCT
+	DELETE_PRODUCT,
+  SELECT_PRODUCT_BY_MENU_GROUP
 } = require('./product.queries')
 
 async function getProductListRepository (transaction = null) {
@@ -47,11 +48,11 @@ async function getProductByNameRepository (name, transaction = null) {
   return camelize(product)
 }
 
-async function postProductRepository (name, description, purchase_price, sale_price, cost_price, current_quantity, max_quantity, min_quantity, status, id_grupo_produto, id_unidade, transaction = null) {
+async function postProductRepository (name, description, purchase_price, sale_price, cost_price, current_quantity, max_quantity, min_quantity, status, id_grupo_produto, id_unidade, id_grupo_cardapio, transaction = null) {
   let response
   try {
     transaction = await validaTransaction(transaction)
-    const QUERY = new PreparedStatement({name: 'insert-new-product', text: INSERT_NEW_PRODUCT, values: [name, description, purchase_price, sale_price, cost_price, current_quantity, max_quantity, min_quantity, status, id_grupo_produto, id_unidade]})
+    const QUERY = new PreparedStatement({name: 'insert-new-product', text: INSERT_NEW_PRODUCT, values: [name, description, purchase_price, sale_price, cost_price, current_quantity, max_quantity, min_quantity, status, id_grupo_produto, id_unidade, id_grupo_cardapio]})
     response = await transaction.query(QUERY)
   } catch (error) {
       throw new DefaultError(`Não foi possível criar este novo Produto, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
@@ -59,11 +60,11 @@ async function postProductRepository (name, description, purchase_price, sale_pr
   return camelize(response)
 }
 
-async function putProductRepository (id, name, description, purchase_price, sale_price, cost_price, current_quantity, max_quantity, min_quantity, status, id_grupo_produto, id_unidade, transaction = null) {
+async function putProductRepository (id, name, description, purchase_price, sale_price, cost_price, current_quantity, max_quantity, min_quantity, status, id_grupo_produto, id_unidade, id_grupo_cardapio, transaction = null) {
   let response
   try {
     transaction = await validaTransaction(transaction)
-    const QUERY = new PreparedStatement({name: 'update-product', text: UPDATE_PRODUCT, values: [id, name, description, purchase_price, sale_price, cost_price, current_quantity, max_quantity, min_quantity, status, id_grupo_produto, id_unidade]})
+    const QUERY = new PreparedStatement({name: 'update-product', text: UPDATE_PRODUCT, values: [id, name, description, purchase_price, sale_price, cost_price, current_quantity, max_quantity, min_quantity, status, id_grupo_produto, id_unidade, id_grupo_cardapio]})
     response = await transaction.query(QUERY)
   } catch (error) {
     throw new DefaultError(`Não foi possível atualizar este Produto, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
@@ -82,11 +83,23 @@ async function deleteProductRepository (id, transaction = null) {
   return camelize(response)
 }
 
+async function getProductByMenuGroupRepository (id, transaction = null) {
+  let product
+  try {
+    transaction = await validaTransaction(transaction)
+    const QUERY = new PreparedStatement({name: 'select-product-by-menu-group', text: SELECT_PRODUCT_BY_MENU_GROUP, values: [id]})
+    product = await transaction.manyOrNone(QUERY)
+  } catch (error) {
+      throw new DefaultError(`Não foi possível buscar este Produto, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
+  }
+  return camelize(product)
+}
 module.exports = {
   getProductListRepository,
   getProductByIdRepository,
   getProductByNameRepository,
   postProductRepository,
   putProductRepository,
-  deleteProductRepository
+  deleteProductRepository,
+  getProductByMenuGroupRepository
 }
