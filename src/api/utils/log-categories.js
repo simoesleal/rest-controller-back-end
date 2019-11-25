@@ -27,6 +27,7 @@ const LOG_ACCOUNT_RECEIVABLES = 'accounts/account_receivables'
 const LOG_INSTALLMENTS_PAYABLES = 'accounts/installments_payables'
 const LOG_INSTALLMENTS_RECEIVABLES = 'accounts/installments_receivables'
 const LOG_MENU_GROUP = 'registration/menu_group'
+const LOG_AUTH = 'registration/auth'
 
 module.exports = {
   LOG_COUNTRY,
@@ -57,5 +58,6 @@ module.exports = {
   LOG_ACCOUNT_RECEIVABLES,
   LOG_INSTALLMENTS_PAYABLES,
   LOG_INSTALLMENTS_RECEIVABLES,
-  LOG_MENU_GROUP
+  LOG_MENU_GROUP,
+  LOG_AUTH
 }
