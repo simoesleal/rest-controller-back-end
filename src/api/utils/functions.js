@@ -4,7 +4,7 @@
  * @returns {boolean}
  */
 async function validateParam (param) {
-  return (param !== undefined && param !== null)
+  return (param !== undefined && param !== null && param !== '')
 }
 
 module.exports = { 
