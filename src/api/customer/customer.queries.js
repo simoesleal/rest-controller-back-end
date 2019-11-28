@@ -3,26 +3,27 @@ const SELECT_CUSTOMERS = `SELECT cliente.id, cliente.nome, cliente.sobrenome, cl
 cliente.docs, cliente.email, cliente.telefone, cliente.celular, cliente.preferencias, 
 endereco.id as id_endereco, endereco.cep, endereco.rua, endereco.numero, endereco.bairro, endereco.complemento, endereco.pais as pais, endereco.estado as estado, endereco.cidade as cidade
 FROM cliente
-INNER JOIN endereco ON cliente.id_endereco=endereco.id;`
+INNER JOIN endereco ON cliente.id_endereco=endereco.id
+where cliente.status is not false;`
 							
 
 const SELECT_CUSTOMER_BY_ID = `SELECT cliente.id, cliente.nome, cliente.sobrenome, cliente.data_nascimento,cliente.sexo, cliente.status, cliente.docs, cliente.email, cliente.telefone, cliente.celular, cliente.preferencias, 
 endereco.id as id_endereco, endereco.cep, endereco.rua, endereco.numero, endereco.bairro, endereco.complemento, endereco.pais as pais, endereco.estado as estado, endereco.cidade as cidade
 FROM cliente
 INNER JOIN endereco ON cliente.id_endereco=endereco.id
-WHERE cliente.id = ($1);`			
+WHERE cliente.id = ($1) and cliente.status is not false;`			
 
 const SELECT_CUSTOMER_BY_NAME = `SELECT cliente.id, cliente.nome, cliente.sobrenome, cliente.data_nascimento,cliente.sexo, cliente.status, cliente.docs, cliente.email, cliente.telefone, cliente.celular, cliente.preferencias, 
 endereco.id as id_endereco, endereco.cep, endereco.rua, endereco.numero, endereco.bairro, endereco.complemento, endereco.pais as pais, endereco.estado as estado, endereco.cidade as cidade
 FROM cliente
 INNER JOIN endereco ON cliente.id_endereco=endereco.id
-WHERE cliente.nome like ($1);`
+WHERE cliente.nome like ($1) and cliente.status is not false;`
 
 const SELECT_CUSTOMER_BY_LAST_NAME = `SELECT cliente.id, cliente.nome, cliente.sobrenome, cliente.data_nascimento,cliente.sexo, cliente.status, cliente.docs, cliente.email, cliente.telefone, cliente.celular, cliente.preferencias, 
 endereco.id as id_endereco, endereco.cep, endereco.rua, endereco.numero, endereco.bairro, endereco.complemento, endereco.pais as pais, endereco.estado as estado, endereco.cidade as cidade
 FROM cliente
 INNER JOIN endereco ON cliente.id_endereco=endereco.id
-WHERE cliente.sobrenome like ($1);`											
+WHERE cliente.sobrenome like ($1) and cliente.status is not false;`											
 
 const SELECT_CUSTOMER_BY_PHONE = `SELECT cliente.id, cliente.nome, cliente.sobrenome, cliente.data_nascimento,cliente.sexo, cliente.status, cliente.docs, cliente.email, cliente.telefone, cliente.celular, cliente.preferencias, 
 endereco.id as id_endereco, endereco.cep, endereco.rua, endereco.numero, endereco.bairro, endereco.complemento, endereco.pais as pais, endereco.estado as estado, endereco.cidade as cidade

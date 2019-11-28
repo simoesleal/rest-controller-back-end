@@ -52,11 +52,11 @@ async function postCashRegisterService (id_funcionario, saldo_inicial, saldo_fin
 	try {
 
 	 logInfo(`Entering ${methodName}`, `id_funcionario = [${id_funcionario}], saldo_inicial = [${saldo_inicial}], saldo_final = [${saldo_final}], fundo_real = [${fundo_real}], fundo_dolar = [${fundo_dolar}], fundo_peso = [${fundo_peso}], fundo_guarani = [${fundo_guarani}], fechamentos_real = [${fechamentos_real}], fechamentos_dolar = [${fechamentos_dolar}], fechamentos_peso = [${fechamentos_peso}], fechamentos_guarani = [${fechamentos_guarani}], fechamentos_cartao_cred = [${fechamentos_cartao_cred}], fechamentos_cartao_deb = [${fechamentos_cartao_deb}], valor_total_fechamentos = [${valor_total_fechamentos}] `, LOG_CASH_REGISTER)
-	
+
 		await validateNewCashRegister(id_funcionario, saldo_inicial, fundo_real, fundo_dolar, fundo_peso, fundo_guarani)
 
 		response = await postCashRegisterRepository(id_funcionario, saldo_inicial, saldo_final, fundo_real, fundo_dolar, fundo_peso, fundo_guarani, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_guarani, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos)
-		await postCashQuotation(response.id) 
+		await postCashQuotation(response.id) 	
 
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_CASH_REGISTER)
@@ -122,7 +122,7 @@ async function postCashQuotation (id_caixa) {
 	let response
 	try {
 		logInfo(`Entering ${methodName}`, `id_caixa = [${id_caixa}]`, LOG_CASH_REGISTER)
-		 await postCashQuotationRepository(id_caixa, 5)
+		 await postCashQuotationRepository(id_caixa, 1)
 		 await postCashQuotationRepository(id_caixa, 2)
 		 await postCashQuotationRepository(id_caixa, 3)
 	} catch (error) {
@@ -131,6 +131,22 @@ async function postCashQuotation (id_caixa) {
 	}
 	logInfo(`Returning ${methodName}`, response, LOG_CASH_REGISTER)
 	return response
+}
+
+async function verifyCashActive () {
+	let methodName = 'verifyCashActive'
+	let response
+	try {
+		logInfo(`Entering ${methodName}`, ``, LOG_CASH_REGISTER)
+		response = await getCashRegisterListRepository()
+		if (response === null) {
+			return true
+		} else {
+			return false
+		}
+	} catch (error) {
+		
+	}
 }
 
 module.exports = {

@@ -68,9 +68,9 @@ async function createReceiableAccountCreditCart(value) {
 			qtdInstallment: 1,
 			totalValue: value,
 			description: 'Fechamento de conta cliente com cartão de Crédito',
-			idCliente: 1,
-			idContaBancaria: 2,
-			idTipoDocumento: 3,
+			idCliente: 9999,
+			idContaBancaria: 9999,
+			idTipoDocumento: 9999,
 			idMoeda: 1,
 			Installment: installments
 		}
@@ -102,9 +102,9 @@ async function createReceiableAccountDevitCart(value) {
 			qtdInstallment: 1,
 			totalValue: value,
 			description: 'Fechamento de conta cliente com cartão de Débito',
-			idCliente: 1,
-			idContaBancaria: 2,
-			idTipoDocumento: 3,
+			idCliente: 9999,
+			idContaBancaria: 9999,
+			idTipoDocumento: 9999,
 			idMoeda: 1,
 			Installment: installments
 		}

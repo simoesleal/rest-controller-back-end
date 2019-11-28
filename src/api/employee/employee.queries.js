@@ -5,7 +5,8 @@ endereco.id as id_endereco, endereco.cep, endereco.rua, endereco.numero, enderec
 funcao.id as id_funcao, funcao.nome AS nome_funcao
 FROM funcionario
 INNER JOIN endereco ON funcionario.id_endereco=endereco.id
-INNER JOIN funcao ON funcionario.id_funcao=funcao.id;`
+INNER JOIN funcao ON funcionario.id_funcao=funcao.id
+where funcionario.status is not false;`
 									
 
 const SELECT_EMPLOYEE_BY_ID = `SELECT funcionario.id, funcionario.nome, funcionario.sobrenome, funcionario.data_nascimento, funcionario.login, funcionario.status, 
@@ -15,7 +16,7 @@ funcao.id as id_funcao, funcao.nome AS nome_funcao
 FROM funcionario
 INNER JOIN endereco ON funcionario.id_endereco=endereco.id
 INNER JOIN funcao ON funcionario.id_funcao=funcao.id
-WHERE funcionario.id = ($1);`				
+WHERE funcionario.id = ($1) and funcionario.status is not false;`				
 
 const SELECT_EMPLOYEE_BY_NAME = `SELECT funcionario.id, funcionario.nome, funcionario.sobrenome, funcionario.data_nascimento, funcionario.login, funcionario.status, 
 funcionario.cpf, funcionario.email, funcionario.telefone, funcionario.celular, 
@@ -24,7 +25,7 @@ funcao.id as id_funcao, funcao.nome AS nome_funcao
 FROM funcionario
 INNER JOIN endereco ON funcionario.id_endereco=endereco.id
 INNER JOIN funcao ON funcionario.id_funcao=funcao.id
-WHERE funcionario.nome like ($1);`											
+WHERE funcionario.nome like ($1) and funcionario.status is not false;`											
 
 const INSERT_NEW_EMPLOYEE = `INSERT INTO funcionario (nome, sobrenome, data_nascimento, login, senha, status, cpf, email, telefone, celular, id_endereco, id_funcao) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`
 
