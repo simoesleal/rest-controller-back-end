@@ -12,7 +12,6 @@ async function validateUpdateQuotation (id, quotation, id_coin) {
 }
 
 async function validateUpdateQuotationCashier(dolarQuotation, pesoQuotation, gueraniQuotation) {
-  console.log('validateUpdateQuotationCashier')
   if (!dolarQuotation) {
     throw new DefaultError(`Não identificamos a cotação do Dolar. Por favor, tente novamente.`, 'dolarQuotation nulo ou vazio')
   } else {

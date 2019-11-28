@@ -36,11 +36,11 @@ async function getCashRegisterByIdRepository (id, transaction = null) {
   return camelize(cashRegister)
 }
 
-async function postCashRegisterRepository (id_funcionario, saldo_inicial, saldo_final, fundo_real, fundo_dolar, fundo_peso, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos, transaction = null) {
+async function postCashRegisterRepository (id_funcionario, saldo_inicial, saldo_final, fundo_real, fundo_dolar, fundo_peso, fundo_guarani, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_guarani, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos, transaction = null) {
   let response
   try {
     transaction = await validaTransaction(transaction)
-    const QUERY = new PreparedStatement({name: 'insert-new-cash-register', text: INSERT_NEW_CASH_REGISTER, values: [id_funcionario, saldo_inicial, saldo_final, fundo_real, fundo_dolar, fundo_peso, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos]})
+    const QUERY = new PreparedStatement({name: 'insert-new-cash-register', text: INSERT_NEW_CASH_REGISTER, values: [id_funcionario, saldo_inicial, saldo_final, fundo_real, fundo_dolar, fundo_peso, fundo_guarani, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_guarani, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos]})
     response = await transaction.one(QUERY)
   } catch (error) {
       throw new DefaultError(`Não foi possível abrir este caixa, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
@@ -72,11 +72,11 @@ async function deletCashRegisterRepository (id, transaction = null) {
   return camelize(response)
 }
 
-async function closeCashRegisterRepository (id, saldo_final, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos, data_hora_fim, status, transaction = null) {
+async function closeCashRegisterRepository (id, saldo_final, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_guarani, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos, data_hora_fim, status, transaction = null) {
   let response
   try {
     transaction = await validaTransaction(transaction)
-    const QUERY = new PreparedStatement({name: 'close-cash-register', text: CLOSE_CASH_REGISTER, values: [id, saldo_final, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos, data_hora_fim, status]})
+    const QUERY = new PreparedStatement({name: 'close-cash-register', text: CLOSE_CASH_REGISTER, values: [id, saldo_final, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_guarani, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos, data_hora_fim, status]})
     response = await transaction.query(QUERY)
   } catch (error) {
     throw new DefaultError(`Não foi possível fechar este caixa, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)

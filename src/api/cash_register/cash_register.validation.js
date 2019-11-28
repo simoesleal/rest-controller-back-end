@@ -1,6 +1,6 @@
 const DefaultError = require('../../handlers/default-error.handler')
 
-async function validateNewCashRegister (id_funcionario, saldo_inicial, fundo_real, fundo_dolar, fundo_peso) {
+async function validateNewCashRegister (id_funcionario, saldo_inicial, fundo_real, fundo_dolar, fundo_peso, fundo_guarani) {
   if (!id_funcionario) throw new DefaultError(`Não identificamos o funcionário deste caixa e este é um campo obrigatório. Por favor, tente novamente.`, 'id_funcionario nulo ou vazio')
   if (saldo_inicial) {
     if (saldo_inicial < 0) {
@@ -20,6 +20,11 @@ async function validateNewCashRegister (id_funcionario, saldo_inicial, fundo_rea
   if (fundo_peso) {
     if (fundo_peso < 0) {
       throw new DefaultError(`O fundo de caixa em Peso não pode ser menor que P$ 0.00. Por favor, tente novamente.`, 'fundo_peso menor que 0')
+    }
+  }
+  if (fundo_guarani) {
+    if (fundo_guarani < 0) {
+      throw new DefaultError(`O fundo de caixa em Guarani não pode ser menor que G$ 0.00. Por favor, tente novamente.`, 'fundo_guarani menor que 0')
     }
   }
   

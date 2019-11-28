@@ -1,6 +1,6 @@
 const SELECT_CASH_REGISTERS = `select 
-caixa.id, caixa.saldo_inicial, caixa.saldo_final, caixa.fundo_real, caixa.fundo_dolar, caixa.fundo_peso, 
-caixa.fechamentos_real, caixa.fechamentos_dolar, caixa.fechamentos_peso, caixa.fechamentos_cartao_cred, caixa.fechamentos_cartao_deb,
+caixa.id, caixa.saldo_inicial, caixa.saldo_final, caixa.fundo_real, caixa.fundo_dolar, caixa.fundo_peso, caixa.fundo_guarani,
+caixa.fechamentos_real, caixa.fechamentos_dolar, caixa.fechamentos_peso, caixa.fechamentos_guarani, caixa.fechamentos_cartao_cred, caixa.fechamentos_cartao_deb,
 caixa.valor_total_fechamentos, caixa.data_hora_inicio, caixa.status,
 funcionario.id as id_funcionario, funcionario.nome as nomeFunc, funcionario.sobrenome as sobreFunc
 from caixa
@@ -16,8 +16,8 @@ const SELECT_CASH_REGISTER_BY_ID = `select caixa.id, caixa.saldo_inicial, caixa.
 
 
 const INSERT_NEW_CASH_REGISTER = `INSERT INTO caixa
-(id_funcionario, saldo_inicial, saldo_final, fundo_real, fundo_dolar, fundo_peso, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos)
-VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) 
+(id_funcionario, saldo_inicial, saldo_final, fundo_real, fundo_dolar, fundo_peso, fundo_guarani, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_guarani, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos)
+VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) 
 RETURNING id;`
 
 const UPDATE_CASH_REGISTER = `UPDATE caixa SET id_funcionario = ($2), id_cotacao = ($3), saldo_inicial = ($4), saldo_final = ($5), data_hora_inicio = ($6), data_hora_fim = ($7) WHERE id = ($1);`
@@ -25,7 +25,7 @@ const UPDATE_CASH_REGISTER = `UPDATE caixa SET id_funcionario = ($2), id_cotacao
 const DELETE_CASH_REGISTER = `DELETE FROM caixa WHERE id = ($1);`
 
 const CLOSE_CASH_REGISTER = `UPDATE caixa
-SET saldo_final = ($2), fechamentos_real = ($3), fechamentos_dolar= ($4), fechamentos_peso= ($5), fechamentos_cartao_cred = ($6), fechamentos_cartao_deb= ($7), valor_total_fechamentos = ($8), data_hora_fim=($9), status=($10)
+SET saldo_final = ($2), fechamentos_real = ($3), fechamentos_dolar= ($4), fechamentos_peso= ($5),  fechamentos_guarani = ($6), fechamentos_cartao_cred = ($7), fechamentos_cartao_deb = ($8), valor_total_fechamentos = ($9), data_hora_fim=($10), status=($11)
 WHERE id = ($1);`
 
 const INSERT_NEW_CASH_QUOTATION = `INSERT INTO caixa_cotacao

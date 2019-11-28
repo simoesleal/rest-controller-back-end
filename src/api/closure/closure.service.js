@@ -17,7 +17,6 @@ async function postNewClousureService (p_id_conta_cliente, p_id_mesa, json_fecha
 		logInfo(`Entering ${methodName}`, `p_id_conta_cliente = [${p_id_conta_cliente}], p_id_mesa = [${p_id_mesa}], json_fechamento = [${JSON.stringify(json_fechamento)}]`, LOG_CLOSURE)
 
 		await validateNewClosure(p_id_conta_cliente, p_id_mesa, json_fechamento)
-		console.log(JSON.stringify(json_fechamento))
 		if (json_fechamento[0].cartaoCredito && json_fechamento[0].cartaoCredito > 0) {
 			await createReceiableAccountCreditCart(json_fechamento[0].cartaoCredito)
 		}

@@ -1,6 +1,7 @@
 const POST_NEW_CLOUSURE = `select f_fechamento_conta_cliente($1, $2, $3);`
 
 const GET_CLOUSURES_BY_CASH_REGISTER_ID = `select fechamentos.id, fechamentos.valor_pago_real as realbr, fechamentos.valor_pago_dolar dolar, fechamentos.valor_pago_peso as peso, 
+		fechamentos.valor_pago_guarani as guarani,
 		fechamentos.valor_pago_cartao_cred as cc, fechamentos.valor_pago_cartao_deb as cb, 
 		fechamentos.valor_desconto as desconto, fechamentos.valor_troco as troco,
 		fechamentos.valor_total_fechamento as valor_total,

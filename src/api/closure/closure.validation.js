@@ -1,7 +1,6 @@
 const DefaultError = require('../../handlers/default-error.handler')
 
 async function validateNewClosure(p_id_conta_cliente, p_id_mesa, json_fechamento) {
-	console.log('validateNewClosure')
   if (!p_id_conta_cliente) throw new DefaultError(`Não identificamos o código do cliente e este é um campo obrigatório. Por favor, tente novamente.`, 'name nulo ou vazio')
   if (!p_id_mesa) throw new DefaultError(`Não identificamos a mesa a ser fechada e este é um campo obrigatório. Por favor, tente novamente.`, 'name nulo ou vazio')
 	if (!json_fechamento) {
