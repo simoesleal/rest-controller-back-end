@@ -66,7 +66,7 @@ async function postProductService (name, description, purchase_price, sale_price
 	try {
 		logInfo(`Entering ${methodName}`, `name = [${name}], description = [${description}], purchase_price = [${purchase_price}], sale_price = [${sale_price}], cost_price = [${cost_price}], current_quantity = [${current_quantity}], max_quantity = [${max_quantity}], min_quantity = [${min_quantity}], status = [${status}], id_grupo_produto = [${id_grupo_produto}], id_unidade = [${id_unidade}], id_grupo_cardapio = [${id_grupo_cardapio}]`, LOG_PRODUCT)
 
-		await validateNewProduct(name, purchase_price, sale_price, current_quantity, id_grupo_produto, id_unidade, id_grupo_cardapio)
+		await validateNewProduct(name, purchase_price, sale_price, cost_price, current_quantity, max_quantity,  min_quantity, id_grupo_produto, id_unidade)
 
 		response = await postProductRepository(name, description, purchase_price, sale_price, cost_price, current_quantity, max_quantity, min_quantity, status, id_grupo_produto, id_unidade, id_grupo_cardapio)
 
@@ -84,7 +84,7 @@ async function putProductService (id, name, description, purchase_price, sale_pr
 	try {
 		logInfo(`Entering ${methodName}`, `id = [${id}], name = [${name}], description = [${description}], purchase_price = [${purchase_price}], sale_price = [${sale_price}], cost_price = [${cost_price}], current_quantity = [${current_quantity}], max_quantity = [${max_quantity}], status = [${status}], id_grupo_produto = [${id_grupo_produto}], id_unidade = [${id_unidade}], id_grupo_cardapio = [${id_grupo_cardapio}]`, LOG_PRODUCT)
 
-		await validateUpdateProduct(id, name, purchase_price, sale_price, current_quantity, id_grupo_produto, id_unidade, id_grupo_cardapio)
+		await validateUpdateProduct(id, name, purchase_price, sale_price, cost_price, current_quantity, max_quantity,  min_quantity, id_grupo_produto, id_unidade)
 
 		response = await putProductRepository(id, name, description, purchase_price, sale_price, cost_price, current_quantity, max_quantity, min_quantity, status, id_grupo_produto, id_unidade, id_grupo_cardapio)
 

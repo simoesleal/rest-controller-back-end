@@ -87,7 +87,7 @@ async function postEmployeeService (name, lastName, birth, login, password, stat
 	let response
 	try {
 		logInfo(`Entering ${methodName}`, `name = [${name}], lastName = [${lastName}], birth = [${birth}], login = [${login}], status = [${status}], cpf = [${cpf}], email = [${email}], phone = [${phone}], cellphone = [${cellphone}], id_endereco = [${id_endereco}], id_funcao = [${id_funcao}]`, LOG_EMPLOYEE)
-		await validateNewEmployee(name, lastName, birth, login, password, cpf, phone, id_endereco, id_funcao)
+		await validateNewEmployee(name, lastName, birth, login, cpf, phone, id_endereco, id_funcao)
 		response = await postEmployeeRepository(name, lastName, birth, login, password, status, cpf, email, phone, cellphone, id_endereco, id_funcao)
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_EMPLOYEE)
@@ -102,7 +102,7 @@ async function putEmployeeService (id, name, lastName, birth, login, status, cpf
 	let response
 	try {
 		logInfo(`Entering ${methodName}`, `id = [${id}], name = [${name}], lastName = [${lastName}], birth = [${birth}], login = [${login}], status = [${status}], cpf = [${cpf}], email = [${email}], phone = [${phone}], cellphone = [${cellphone}], id_endereco = [${id_endereco}], id_funcao = [${id_funcao}]`, LOG_EMPLOYEE)
-		await validateUpdateEmployee(id, name, lastName, birth, login, status, cpf, email, phone, cellphone, id_endereco, id_funcao)
+		await validateUpdateEmployee(id, name, lastName, birth, login, cpf, phone, id_endereco, id_funcao)
 		response = await putEmployeeRepository(id, name, lastName, birth, login, status, cpf, email, phone, cellphone, id_endereco, id_funcao)
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_EMPLOYEE)

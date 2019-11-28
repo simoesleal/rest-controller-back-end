@@ -62,7 +62,7 @@ async function postBankAccountService (id_banco, account, agency, agencyDigit, a
 	let response
 	try {
 		logInfo(`Entering ${methodName}`, `id_banco = [${id_banco}], agency = [${agency}], account = [${account}],agencyDigit = [${agencyDigit}], accountNumber = [${accountNumber}], accountNumberDigit = [${accountNumberDigit}]`, LOG_BANK_ACCOUNT)
-		await validateNewBankAccount(id_banco, agency, agencyDigit, accountNumber, accountNumberDigit)
+		await validateNewBankAccount(account, id_banco, agency, agencyDigit, accountNumber, accountNumberDigit)
 		response = await postBankAccountRepository(id_banco, account, agency, agencyDigit, accountNumber, accountNumberDigit)
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_BANK_ACCOUNT)
@@ -77,7 +77,7 @@ async function putBankAccountService (id, id_banco, account, agency, agencyDigit
 	let response
 	try {
 		logInfo(`Entering ${methodName}`, `id = [${id}], id_banco = [${id_banco}], account = [${account}], agency = [${agency}], agencyDigit = [${agencyDigit}], accountNumber = [${accountNumber}], accountNumberDigit = [${accountNumberDigit}]`, LOG_BANK_ACCOUNT)
-		await validateUpdateBankAccount(id, id_banco, agency, agencyDigit, accountNumber, accountNumberDigit)
+		await validateUpdateBankAccount(id, account, id_banco, agency, agencyDigit, accountNumber, accountNumberDigit)
 		response = await putBankAccountRepository(id, id_banco, account, agency, agencyDigit, accountNumber, accountNumberDigit)
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_BANK_ACCOUNT)

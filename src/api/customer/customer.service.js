@@ -133,7 +133,7 @@ async function postCustomerService (name, lastName, birth, sex, status, docs, em
 	let response
 	try {
 		logInfo(`Entering ${methodName}`, `name = [${name}], lastName = [${lastName}], birth = [${birth}], sex = [${sex}], status = [${status}], docs = [${docs}], email = [${email}], phone = [${phone}], cellphone = [${cellphone}], preferences = [${preferences}], id_endereco = [${id_endereco}]`, LOG_CUSTOMER)
-		await validateNewCustomer(name, id_endereco)
+		await validateNewCustomer(name, lastName, sex, phone, id_endereco)
 		response = await postCustomerRepository(name, lastName, birth, sex, status, docs, email, phone, cellphone, preferences, id_endereco)
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_CUSTOMER)
@@ -148,7 +148,7 @@ async function putCustomerService (id, name, lastName, birth, sex, status, docs,
 	let response
 	try {
 		logInfo(`Entering ${methodName}`, `id = [${id}], name = [${name}], lastName = [${lastName}], birth = [${birth}], sex = [${sex}], status = [${status}], docs = [${docs}], email = [${email}], phone = [${phone}], cellphone = [${cellphone}], preferences = [${preferences}], id_endereco = [${id_endereco}]`, LOG_CUSTOMER)
-		await validateUpdateCustomer(id, name, id_endereco)
+		await validateUpdateCustomer(id, name, lastName, sex, phone, id_endereco)
 		response = await putCustomerRepository(id, name, lastName, birth, sex, status, docs, email, phone, cellphone, preferences, id_endereco)
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_CUSTOMER)

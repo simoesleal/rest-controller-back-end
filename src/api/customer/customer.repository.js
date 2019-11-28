@@ -93,7 +93,7 @@ async function postCustomerRepository (name, lastName, birth, sex, status, docs,
     const QUERY = new PreparedStatement({name: 'insert-new-customer', text: INSERT_NEW_CUSTOMER, values: [name, lastName, birth, sex, status, docs, email, phone, cellphone, preferences, id_endereco]})
     response = await transaction.query(QUERY)
   } catch (error) {
-      throw new DefaultError(`Não foi possível criar este novo Cleinte, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
+      throw new DefaultError(`Não foi possível criar este novo Cliente, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
   }
   return camelize(response)
 }
@@ -105,7 +105,7 @@ async function putCustomerRepository (id, name, lastName, birth, sex, status,doc
     const QUERY = new PreparedStatement({name: 'update-customer', text: UPDATE_CUSTOMER, values: [id, name, lastName, birth, sex, status, docs, email, phone, cellphone, preferences, id_endereco]})
     response = await transaction.query(QUERY)
   } catch (error) {
-    throw new DefaultError(`Não foi possível atualizar este Cleinte, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
+    throw new DefaultError(`Não foi possível atualizar este Cliente, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code} ]`)
   }
   return camelize(response)
 }

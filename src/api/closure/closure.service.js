@@ -8,13 +8,16 @@ const {
 } = require('./closure.repository')
 const { REGEX_DATE_FORMAT_YYYY_MM_DD, REGEX_KEEP_ONLY_NUMBERS } = require('../utils/constants')
 const { createNewAccountReceivableService } = require('../accounts_receivables/accounts.receivables.service')
+const { validateNewClosure } = require('./closure.validation')
 
 async function postNewClousureService (p_id_conta_cliente, p_id_mesa, json_fechamento) {
 	let methodName = 'postNewClousureService'
 	let response
 	try {
-
 		logInfo(`Entering ${methodName}`, `p_id_conta_cliente = [${p_id_conta_cliente}], p_id_mesa = [${p_id_mesa}], json_fechamento = [${JSON.stringify(json_fechamento)}]`, LOG_CLOSURE)
+
+		await validateNewClosure(p_id_conta_cliente, p_id_mesa, json_fechamento)
+		console.log(JSON.stringify(json_fechamento))
 		if (json_fechamento[0].cartaoCredito && json_fechamento[0].cartaoCredito > 0) {
 			await createReceiableAccountCreditCart(json_fechamento[0].cartaoCredito)
 		}
@@ -65,11 +68,11 @@ async function createReceiableAccountCreditCart(value) {
 			identifier: `CREDIT${hash}`,
 			qtdInstallment: 1,
 			totalValue: value,
-			description: 'Fechamento de conta cliente com cartão de crédito',
+			description: 'Fechamento de conta cliente com cartão de Crédito',
 			idCliente: 1,
-			idContaBancaria: 8,
-			idTipoDocumento: 5,
-			idMoeda: 3,
+			idContaBancaria: 2,
+			idTipoDocumento: 3,
+			idMoeda: 1,
 			Installment: installments
 		}
 	try {
@@ -99,11 +102,11 @@ async function createReceiableAccountDevitCart(value) {
 			identifier: `DEBIT${hash}`,
 			qtdInstallment: 1,
 			totalValue: value,
-			description: 'Fechamento de conta cliente com cartão de crédito',
+			description: 'Fechamento de conta cliente com cartão de Débito',
 			idCliente: 1,
-			idContaBancaria: 8,
-			idTipoDocumento: 5,
-			idMoeda: 3,
+			idContaBancaria: 2,
+			idTipoDocumento: 3,
+			idMoeda: 1,
 			Installment: installments
 		}
 	try {

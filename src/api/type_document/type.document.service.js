@@ -64,7 +64,7 @@ async function postTypeDocumentService (typeDocument, description, status) {
 	let response
 	try {
 		logInfo(`Entering ${methodName}`, `typeDocument = [${typeDocument}], description = [${description}], status = [${status}]`, LOG_TYPE_DOCUMENT)
-		await validateNewTypeDocument(typeDocument, status)
+		await validateNewTypeDocument(typeDocument)
 		response = await postTypeDocumentRepository(typeDocument, description, status)
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_TYPE_DOCUMENT)
@@ -79,7 +79,7 @@ async function putTypeDocumentService (id, typeDocument, description, status) {
 	let response
 	try {
 		logInfo(`Entering ${methodName}`, `id = [${id}], typeDocument = [${typeDocument}], description = [${description}], status = [${status}]`, LOG_TYPE_DOCUMENT)
-		await validateUpdateTypeDocument(id, typeDocument, status)
+		await validateUpdateTypeDocument(id, typeDocument)
 		response = await putTypeDocumentRepository(id, typeDocument, description, status)
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_TYPE_DOCUMENT)

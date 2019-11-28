@@ -51,10 +51,9 @@ async function postCashRegisterService (id_funcionario, saldo_inicial, saldo_fin
 	let response
 	try {
 
-
-		/* logInfo(`Entering ${methodName}`, `id_funcionario = [${id_funcionario}], saldo_inicial = [${saldo_inicial}], saldo_final = [${saldo_final}], fundo_real = [${fundo_real}], fundo_dolar = [${fundo_dolar}], fundo_peso = [${fundo_peso}], fechamentos_real = [${fechamentos_real}], fechamentos_dolar = [${fechamentos_dolar}], fechamentos_peso = [${fechamentos_peso}], fechamentos_cartao_cred = [${fechamentos_cartao_cred}], fechamentos_cartao_deb = [${fechamentos_cartao_deb}], valor_total_fechamentos = [${valor_total_fechamentos}], troco = [${troco}]`, LOG_CASH_REGISTER) */
-
-		/* await validateNewCashRegister(id_funcionario, saldo_inicial, saldo_final, fundo_real, fundo_dolar, fundo_peso, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos) */
+	 logInfo(`Entering ${methodName}`, `id_funcionario = [${id_funcionario}], saldo_inicial = [${saldo_inicial}], saldo_final = [${saldo_final}], fundo_real = [${fundo_real}], fundo_dolar = [${fundo_dolar}], fundo_peso = [${fundo_peso}], fechamentos_real = [${fechamentos_real}], fechamentos_dolar = [${fechamentos_dolar}], fechamentos_peso = [${fechamentos_peso}], fechamentos_cartao_cred = [${fechamentos_cartao_cred}], fechamentos_cartao_deb = [${fechamentos_cartao_deb}], valor_total_fechamentos = [${valor_total_fechamentos}] `, LOG_CASH_REGISTER)
+	
+		await validateNewCashRegister(id_funcionario, saldo_inicial, fundo_real, fundo_dolar, fundo_peso)
 
 		response = await postCashRegisterRepository(id_funcionario, saldo_inicial, saldo_final, fundo_real, fundo_dolar, fundo_peso, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos)
 		await postCashQuotation(response.id) 
