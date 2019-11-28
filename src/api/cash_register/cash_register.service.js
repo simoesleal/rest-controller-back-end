@@ -51,12 +51,17 @@ async function postCashRegisterService (id_funcionario, saldo_inicial, saldo_fin
 	let response
 	try {
 
-	 logInfo(`Entering ${methodName}`, `id_funcionario = [${id_funcionario}], saldo_inicial = [${saldo_inicial}], saldo_final = [${saldo_final}], fundo_real = [${fundo_real}], fundo_dolar = [${fundo_dolar}], fundo_peso = [${fundo_peso}], fundo_guarani = [${fundo_guarani}], fechamentos_real = [${fechamentos_real}], fechamentos_dolar = [${fechamentos_dolar}], fechamentos_peso = [${fechamentos_peso}], fechamentos_guarani = [${fechamentos_guarani}], fechamentos_cartao_cred = [${fechamentos_cartao_cred}], fechamentos_cartao_deb = [${fechamentos_cartao_deb}], valor_total_fechamentos = [${valor_total_fechamentos}] `, LOG_CASH_REGISTER)
+		logInfo(`Entering ${methodName}`, `id_funcionario = [${id_funcionario}], saldo_inicial = [${saldo_inicial}], saldo_final = [${saldo_final}], fundo_real = [${fundo_real}], fundo_dolar = [${fundo_dolar}], fundo_peso = [${fundo_peso}], fundo_guarani = [${fundo_guarani}], fechamentos_real = [${fechamentos_real}], fechamentos_dolar = [${fechamentos_dolar}], fechamentos_peso = [${fechamentos_peso}], fechamentos_guarani = [${fechamentos_guarani}], fechamentos_cartao_cred = [${fechamentos_cartao_cred}], fechamentos_cartao_deb = [${fechamentos_cartao_deb}], valor_total_fechamentos = [${valor_total_fechamentos}] `, LOG_CASH_REGISTER)
 
-		await validateNewCashRegister(id_funcionario, saldo_inicial, fundo_real, fundo_dolar, fundo_peso, fundo_guarani)
+		const verifyCashRegisterStatus = await verifyCashActive()
 
-		response = await postCashRegisterRepository(id_funcionario, saldo_inicial, saldo_final, fundo_real, fundo_dolar, fundo_peso, fundo_guarani, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_guarani, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos)
-		await postCashQuotation(response.id) 	
+		if (verifyCashRegisterStatus) {
+			await validateNewCashRegister(id_funcionario, saldo_inicial, fundo_real, fundo_dolar, fundo_peso, fundo_guarani)
+			response = await postCashRegisterRepository(id_funcionario, saldo_inicial, saldo_final, fundo_real, fundo_dolar, fundo_peso, fundo_guarani, fechamentos_real, fechamentos_dolar, fechamentos_peso, fechamentos_guarani, fechamentos_cartao_cred, fechamentos_cartao_deb, valor_total_fechamentos)
+			await postCashQuotation(response.id) 	
+		} else {
+			throw new ErrorHandler('Já existe um caixa aberto, só é permitido a abertura de um caixa por vez. Para abrir um novo caixa, solicite o fechamento do caixa atual.', httpStatus.BAD_REQUEST, false)
+		}
 
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_CASH_REGISTER)
