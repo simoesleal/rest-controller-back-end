@@ -4,7 +4,8 @@ const {	LOG_QUOTATION } = require('../utils/log-categories')
 const ErrorHandler = require('../../handlers/error.handler')
 const {
 	validateNewQuotation,
-	validateUpdateQuotation
+	validateUpdateQuotation,
+	validateUpdateQuotationCashier
 } = require('./quotation.validation')
 const { 
   getQuotationListRepository,
@@ -93,6 +94,7 @@ async function updataQuotationCashierService (dolarQuotation, pesoQuotation, gue
 	let methodName = 'updataQuotationCashierService'
 	try {
 		logInfo(`Entering ${methodName}`, `dolarQuotation = [${JSON.stringify(dolarQuotation)}], pesoQuotation = [${JSON.stringify(pesoQuotation)}], gueraniQuotation = [${JSON.stringify(gueraniQuotation)}]`, LOG_QUOTATION)
+		await validateUpdateQuotationCashier(dolarQuotation, pesoQuotation, gueraniQuotation)
 		await updataQuotationCashierRepository(dolarQuotation.id, dolarQuotation.cotacao)
 		await updataQuotationCashierRepository(pesoQuotation.id, pesoQuotation.cotacao)
 		await updataQuotationCashierRepository(gueraniQuotation.id, gueraniQuotation.cotacao)

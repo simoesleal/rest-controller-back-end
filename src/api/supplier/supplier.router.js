@@ -6,7 +6,8 @@ const {
 	getSupplierByNomeFantasia,
 	postSupplier,
 	putSupplier,
-	deleteSupplier
+	deleteSupplier,
+	getSupplierByDoc
 } = require('./supplier.controller')
 
 const router = express.Router()
@@ -15,6 +16,7 @@ router.get('/consultar/fornecedor', getSupplierList)
 router.get('/consultar/fornecedor/:id', getSupplierBy)
 router.get('/consultar/fornecedor/razao-social/:razaoSocial', getSupplierByRazaoSocial)
 router.get('/consultar/fornecedor/nome-fantasia/:fakeName', getSupplierByNomeFantasia)
+router.get('/consultar/fornecedor/documento/:document', getSupplierByDoc)
 router.post('/cadastrar/fornecedor/', postSupplier)
 router.put('/atualizar/fornecedor/', putSupplier)
 router.delete('/deletar/fornecedor/:id', deleteSupplier)

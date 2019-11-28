@@ -7,7 +7,8 @@ const {
 	getSupplierByNomeFantasiaService,
 	postSupplierService,
 	putSupplierService,
-	deleteSupplierService
+	deleteSupplierService,
+	getSupplierByDocService
 } = require('./supplier.service')
 
 async function getSupplierList (req, res, next) {
@@ -42,6 +43,17 @@ async function getSupplierByRazaoSocial (req, res, next) {
 	return res.json(new DataHandler(httpStatus.OK, 'Consulta de Fornecedor realizada com sucesso.', supplier))
 }
 
+async function getSupplierByDoc (req, res, next) {
+	const { document } = req.params
+	let response
+	try {
+		response = await getSupplierByDocService(document)
+	} catch (error) {
+		return next(error)
+	}
+	return res.json(new DataHandler(httpStatus.OK, 'Consulta de Fornecedor realizada com sucesso.', response))
+}
+
 async function getSupplierByNomeFantasia (req, res, next) {
 	const { fakeName } = req.params
 	let supplier
@@ -55,10 +67,10 @@ async function getSupplierByNomeFantasia (req, res, next) {
 
 
 async function postSupplier (req, res, next) {
-	const { nome_fantasia, razao_social, cpf_cnpj, insc_municipal, insc_estadual, status, email, phone, cellphone, conta_corrente, id_endereco } = req.body
+	const { nome_fantasia, razao_social, cpf_cnpj, insc_municipal, insc_estadual, status, email, phone, cellphone, tipo_fornecedor, id_endereco } = req.body
 	let response
 	try {
-		response = await postSupplierService(nome_fantasia, razao_social, cpf_cnpj, insc_municipal, insc_estadual, status, email, phone, cellphone, conta_corrente, id_endereco)
+		response = await postSupplierService(nome_fantasia, razao_social, cpf_cnpj, insc_municipal, insc_estadual, status, email, phone, cellphone, tipo_fornecedor, id_endereco)
 	} catch (error) {
 		return next(error)
 	}
@@ -66,10 +78,10 @@ async function postSupplier (req, res, next) {
 }
 
 async function putSupplier (req, res, next) {
-	const { id, nome_fantasia, razao_social, cpf_cnpj, insc_municipal, insc_estadual, status, email, phone, cellphone, conta_corrente, id_endereco } = req.body
+	const { id, nome_fantasia, razao_social, cpf_cnpj, insc_municipal, insc_estadual, status, email, phone, cellphone, tipo_fornecedor, id_endereco } = req.body
 	let response
 	try {
-		response = await putSupplierService(id, nome_fantasia, razao_social, cpf_cnpj, insc_municipal, insc_estadual, status, email, phone, cellphone, conta_corrente, id_endereco)
+		response = await putSupplierService(id, nome_fantasia, razao_social, cpf_cnpj, insc_municipal, insc_estadual, status, email, phone, cellphone, tipo_fornecedor, id_endereco)
 	} catch (error) {
 		return next(error)
 	}
@@ -94,5 +106,6 @@ module.exports = {
 	getSupplierByNomeFantasia,
 	postSupplier,
 	putSupplier,
-	deleteSupplier
+	deleteSupplier,
+	getSupplierByDoc
 }

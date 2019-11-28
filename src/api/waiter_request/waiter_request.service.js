@@ -22,7 +22,6 @@ async function insertNewWaiterRequestService (idMesa, idFuncionario, idContaClie
 		await validateNewWaiterRequest(idMesa, idFuncionario, idContaCliente, produtos)
 
 		response = await insertNewWaiterRequestRepository(idMesa, idFuncionario, idContaCliente, produtos)
-		
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_WAITER_REQUEST)
 		throw new ErrorHandler(error.mensagem, httpStatus.BAD_REQUEST, false)

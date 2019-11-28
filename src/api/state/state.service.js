@@ -80,7 +80,7 @@ async function postStateService (name, uf, ibge, pais) {
 	let response
 	try {
 		logInfo(`Entering ${methodName}`, `name = [${name}], uf = [${uf}], ibge = [${ibge}], pais = [${pais}]`, LOG_STATE)
-		await validateNewState(name, uf, ibge, pais)
+		await validateNewState(name, uf, pais)
 		response = await postStateRepository(name, uf, ibge, pais)
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_STATE)
@@ -95,7 +95,7 @@ async function putStateService (id, name, uf, ibge, pais) {
 	let response
 	try {
 		logInfo(`Entering ${methodName}`, `id = [${id}], name = [${name}], uf = [${uf}], ibge = [${ibge}], pais = [${pais}]`, LOG_STATE)
-		await validateUpdateState(id, name, uf, ibge, pais)
+		await validateUpdateState(id, name, uf, pais)
 		response = await putStateRepository(id, name, uf, ibge, pais)
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_STATE)

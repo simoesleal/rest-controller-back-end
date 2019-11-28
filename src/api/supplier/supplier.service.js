@@ -13,7 +13,8 @@ const {
   getSupplierByNomeFantasiaRepository,
   postSupplierRepository,
   putSupplierRepository,
-  deleteSupplierRepository
+  deleteSupplierRepository,
+	getSupplierByDocRepository
 } = require('./supplier.repository')
 const { getCountryByIdService } = require('../country/country.service')
 const { getStateByIdService } = require('../state/state.service')
@@ -96,13 +97,15 @@ async function getSupplierByNomeFantasiaService (fakeName) {
 }
 
 
-async function postSupplierService (nome_fantasia, razao_social, cpf_cnpj, insc_municipal, insc_estadual, status, email, phone, cellphone, conta_corrente, id_endereco) {
+async function postSupplierService (nome_fantasia, razao_social, cpf_cnpj, insc_municipal, insc_estadual, status, email, phone, cellphone, tipo_fornecedor, id_endereco) {
 	let methodName = 'postSupplierService'
 	let response
 	try {
-		logInfo(`Entering ${methodName}`, `nome_fantasia = [${nome_fantasia}], razao_social = [${razao_social}], cpf_cnpj = [${cpf_cnpj}], insc_municipal = [${insc_municipal}], insc_estadual = [${insc_estadual}], status = [${status}], email = [${email}], phone = [${phone}], cellphone = [${cellphone}], conta_corrente = [${conta_corrente}], id_endereco = [${id_endereco}]`, LOG_SUPPLIER)
-		await validateNewSupplier(nome_fantasia, razao_social, cpf_cnpj, id_endereco)
-		response = await postSupplierRepository(nome_fantasia, razao_social, cpf_cnpj, insc_municipal, insc_estadual, status, email, phone, cellphone, conta_corrente, id_endereco)
+		logInfo(`Entering ${methodName}`, `nome_fantasia = [${nome_fantasia}], razao_social = [${razao_social}], cpf_cnpj = [${cpf_cnpj}], insc_municipal = [${insc_municipal}], insc_estadual = [${insc_estadual}], status = [${status}], email = [${email}], phone = [${phone}], cellphone = [${cellphone}], tipo_fornecedor = [${tipo_fornecedor}], id_endereco = [${id_endereco}]`, LOG_SUPPLIER)
+		
+		await validateNewSupplier(nome_fantasia, tipo_fornecedor, razao_social, cpf_cnpj, id_endereco)
+
+		response = await postSupplierRepository(nome_fantasia, razao_social, cpf_cnpj, insc_municipal, insc_estadual, status, email, phone, cellphone, tipo_fornecedor, id_endereco)
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_SUPPLIER)
 		throw new ErrorHandler(error.mensagem, httpStatus.BAD_REQUEST, false)
@@ -111,13 +114,13 @@ async function postSupplierService (nome_fantasia, razao_social, cpf_cnpj, insc_
 	return response
 }
 
-async function putSupplierService (id, nome_fantasia, razao_social, cpf_cnpj, insc_municipal, insc_estadual, status, email, phone, cellphone, conta_corrente, id_endereco) {
+async function putSupplierService (id, nome_fantasia, razao_social, cpf_cnpj, insc_municipal, insc_estadual, status, email, phone, cellphone, tipo_fornecedor, id_endereco) {
 	let methodName = 'putSupplierService'
 	let response
 	try {
-		logInfo(`Entering ${methodName}`, `id = [${id}], nome_fantasia = [${nome_fantasia}], razao_social = [${razao_social}], cpf_cnpj = [${cpf_cnpj}], insc_municipal = [${insc_municipal}], insc_estadual = [${insc_estadual}], status = [${status}], email = [${email}], phone = [${phone}], cellphone = [${cellphone}], conta_corrente = [${conta_corrente}], id_endereco = [${id_endereco}]`, LOG_SUPPLIER)
-		await validateUpdateSupplier(id, nome_fantasia, razao_social, cpf_cnpj, id_endereco)
-		response = await putSupplierRepository(id, nome_fantasia, razao_social, cpf_cnpj, insc_municipal, insc_estadual, status, email, phone, cellphone, conta_corrente, id_endereco)
+		logInfo(`Entering ${methodName}`, `id = [${id}], nome_fantasia = [${nome_fantasia}], razao_social = [${razao_social}], cpf_cnpj = [${cpf_cnpj}], insc_municipal = [${insc_municipal}], insc_estadual = [${insc_estadual}], status = [${status}], email = [${email}], phone = [${phone}], cellphone = [${cellphone}], tipo_fornecedor = [${tipo_fornecedor}], id_endereco = [${id_endereco}]`, LOG_SUPPLIER)
+		await validateUpdateSupplier(id, nome_fantasia, tipo_fornecedor, razao_social, cpf_cnpj, id_endereco)
+		response = await putSupplierRepository(id, nome_fantasia, razao_social, cpf_cnpj, insc_municipal, insc_estadual, status, email, phone, cellphone, tipo_fornecedor, id_endereco)
 	} catch (error) {
 		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_SUPPLIER)
 		throw new ErrorHandler(error.mensagem, httpStatus.BAD_REQUEST, false)
@@ -140,6 +143,21 @@ async function deleteSupplierService (id) {
 	return response
 }
 
+async function getSupplierByDocService (document) {
+	let methodName = 'getSupplierByDocService'
+	let customer
+	let preparedName
+	try {
+		logInfo(`Entering ${methodName}`, `document = [${document}]`, LOG_SUPPLIER)
+		preparedName = `%${document}%`
+		customer = await getSupplierByDocRepository(preparedName)
+	} catch (error) {
+		logError(`Error ${methodName}`, `exception.mensagemLog = [ ${JSON.stringify(error.mensagemLog)} ]`, LOG_SUPPLIER)
+		throw new ErrorHandler(error.mensagem, httpStatus.BAD_REQUEST, false)
+	}
+	logInfo(`Returning ${methodName}`, customer, LOG_SUPPLIER)
+	return customer
+}
 module.exports = {
 	getSupplierListService,
 	getSupplierByIdService,
@@ -147,5 +165,6 @@ module.exports = {
 	getSupplierByNomeFantasiaService,
 	postSupplierService,
 	putSupplierService,
-	deleteSupplierService
+	deleteSupplierService,
+	getSupplierByDocService
 }

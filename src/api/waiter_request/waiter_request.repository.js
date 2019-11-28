@@ -15,7 +15,11 @@ async function insertNewWaiterRequestRepository (idMesa, idFuncionario, idContaC
     const QUERY = new PreparedStatement({name: 'insert-new-waiter-request', text: INSERT_NEW_WAITER_REQUEST, values: [idMesa, idFuncionario, idContaCliente, JSON.stringify(produtos)]})
     response = await transaction.query(QUERY)
   } catch (error) {
-      throw new DefaultError(`Não foi criar este pedido, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code}]`)
+      if( error.message === 'new row for relation "produto" violates check constraint "qtd_atual_nonnegative"') {
+        throw new DefaultError(`Não foi criar este pedido, por favor, tente novamente. Detalhes do erro: A quantidade do produto em estoque é insufiente para realizar uma venda.`)
+      } else {
+        throw new DefaultError(`Não foi criar este pedido, por favor, tente novamente. Detalhes do erro: ${error.message}`, `error.message: [ ${error.message} ] error.code: [ ${error.code}]`)
+      }
   }
   return camelize(response)
 }
